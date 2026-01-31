@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WordPress 文章自动化系统 - 完整教程</title>
+    <title>文章生图自动化项目 - 完整教程</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&family=Jost:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             /* 科技感配色系统 */
@@ -13,6 +14,7 @@
             --surface-bg: rgba(26, 26, 26, 0.8);
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
             
             /* 霓虹色彩 */
             --neon-cyan: #00ffff;
@@ -21,1284 +23,1269 @@
             --neon-pink: #ff0080;
             --neon-blue: #0080ff;
             
-            /* 文字颜色 */
+            /* 文字色彩 */
             --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.5);
+            --text-secondary: #b3b3b3;
+            --text-muted: #666666;
+            --text-accent: var(--neon-cyan);
             
-            /* 间距 */
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 1.5rem;
-            --spacing-lg: 2rem;
-            --spacing-xl: 3rem;
-            
-            /* 圆角 */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            
-            /* 阴影 */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 20px rgba(0, 255, 255, 0.3);
-            
-            /* 过渡 */
-            --transition-fast: 0.2s ease;
-            --transition-normal: 0.3s ease;
-            --transition-slow: 0.5s ease;
+            /* 状态色彩 */
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff0040;
+            --info: #0080ff;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
             background: 
                 radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 40% 80%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
                 linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
-            color: var(--text-primary);
-            line-height: 1.8;
             min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
         }
-        
+
         /* 科技感网格背景 */
         body::before {
             content: '';
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
+            width: 100%;
+            height: 100%;
             background-image: 
                 linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
         }
-        
-        /* 粒子容器 */
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 var(--spacing-md);
-            position: relative;
-            z-index: 2;
+            padding: 20px;
         }
-        
-        /* 导航栏 */
-        .navbar {
-            position: fixed;
+
+        header {
+            background: var(--surface-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--neon-cyan);
+            color: var(--text-primary);
+            padding: 80px 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 20px 60px var(--glass-shadow),
+                0 0 40px rgba(0, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        header:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 30px 80px var(--glass-shadow),
+                0 0 60px rgba(0, 255, 255, 0.2);
+        }
+
+        header h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.3em;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .nav {
+            background: var(--surface-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-top: 2px solid var(--neon-purple);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 
+                0 8px 32px var(--glass-shadow),
+                0 0 20px rgba(139, 92, 246, 0.1);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav:hover {
+            box-shadow: 
+                0 12px 40px var(--glass-shadow),
+                0 0 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .nav h2 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 700;
+            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .nav h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--neon-purple);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .nav a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav a:hover {
+            background: var(--accent-bg);
+            color: var(--text-primary);
+            transform: translateX(5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .nav a:hover::before {
+            left: 100%;
+        }
+
+        .section {
+            background: var(--surface-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--neon-green);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 
+                0 8px 32px var(--glass-shadow),
+                0 0 20px rgba(0, 255, 136, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            padding: var(--spacing-sm) 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan), var(--neon-purple));
         }
-        
-        .navbar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 50px var(--glass-shadow),
+                0 0 30px rgba(0, 255, 136, 0.2);
         }
-        
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .navbar-nav {
-            display: flex;
-            gap: var(--spacing-md);
-            list-style: none;
-        }
-        
-        .navbar-nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition-fast);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--radius-sm);
-        }
-        
-        .navbar-nav a:hover {
-            color: var(--neon-cyan);
-            background: var(--glass-bg);
-        }
-        
-        /* Hero 区域 */
-        .hero {
-            padding: 150px 0 100px;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: var(--spacing-md);
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple), var(--neon-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow 3s ease-in-out infinite;
-        }
-        
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.5)); }
-        }
-        
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-xl);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: var(--spacing-md);
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            padding: var(--spacing-sm) var(--spacing-lg);
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-normal);
-            cursor: pointer;
-            border: none;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-            color: var(--primary-bg);
-            box-shadow: var(--shadow-glow);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-        }
-        
-        .btn-secondary {
-            background: var(--glass-bg);
+
+        .section h2 {
             color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--surface-bg);
-            border-color: var(--neon-cyan);
-        }
-        
-        /* 章节样式 */
-        .section {
-            padding: var(--spacing-xl) 0;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--neon-green);
+            font-family: 'Bodoni Moda', serif;
             font-weight: 700;
-            margin-bottom: var(--spacing-lg);
-            text-align: center;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .card {
-            background: var(--surface-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-md);
-            transition: var(--transition-normal);
-        }
-        
-        .card:hover {
-            border-color: var(--neon-cyan);
-            box-shadow: var(--shadow-glow);
-            transform: translateY(-4px);
-        }
-        
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-sm);
-            color: var(--neon-cyan);
-        }
-        
-        .card p {
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        /* 代码块 */
-        .code-block {
-            background: var(--accent-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            overflow-x: auto;
-            margin: var(--spacing-md) 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             position: relative;
         }
-        
-        .code-block::before {
-            content: 'bash';
+
+        .section h2::after {
+            content: '';
             position: absolute;
-            top: var(--spacing-xs);
-            right: var(--spacing-sm);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--neon-cyan);
         }
-        
-        .code-block code {
-            font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 0.9rem;
-            color: var(--neon-green);
-            line-height: 1.6;
+
+        .section h3 {
+            color: var(--text-primary);
+            font-size: 1.6em;
+            margin: 30px 0 15px;
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 700;
+            position: relative;
+            padding-left: 20px;
         }
-        
-        .code-block .comment {
-            color: var(--text-muted);
+
+        .section h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--neon-purple);
+            border-radius: 2px;
         }
-        
-        .code-block .keyword {
-            color: var(--neon-purple);
-        }
-        
-        .code-block .string {
+
+        .section h4 {
+            color: var(--text-primary);
+            font-size: 1.3em;
+            margin: 25px 0 15px;
+            font-weight: 600;
             color: var(--neon-cyan);
         }
-        
-        /* 列表样式 */
-        .feature-list {
+
+        .step {
+            background: var(--accent-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--neon-blue);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+        }
+
+        .step:hover {
+            box-shadow: 0 8px 24px var(--glass-shadow);
+            border-color: var(--neon-cyan);
+            transform: translateY(-2px);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-cyan));
+            color: var(--primary-bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 0.9em;
+            box-shadow: 0 2px 10px rgba(0, 128, 255, 0.3);
+        }
+
+        code {
+            background: var(--accent-bg);
+            border: 1px solid var(--glass-border);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            color: var(--neon-pink);
+            font-size: 0.9em;
+            box-shadow: 0 2px 8px rgba(255, 0, 128, 0.2);
+        }
+
+        pre {
+            background: var(--accent-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 25px 0;
+            box-shadow: 0 4px 20px var(--glass-shadow);
+            position: relative;
+            border-left: 3px solid var(--neon-pink);
+        }
+
+        pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .warning {
+            background: rgba(255, 170, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+            border-left: 4px solid var(--warning);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .warning strong {
+            color: var(--warning);
+            font-weight: 700;
+        }
+
+        .success {
+            background: rgba(0, 255, 136, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-left: 4px solid var(--success);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .success strong {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .info {
+            background: rgba(0, 128, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 128, 255, 0.3);
+            border-left: 4px solid var(--info);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .info strong {
+            color: var(--info);
+            font-weight: 700;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--accent-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 16px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 2px solid var(--neon-purple);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 50px var(--glass-shadow),
+                0 0 30px rgba(139, 92, 246, 0.2);
+            border-color: var(--neon-purple);
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .checklist {
             list-style: none;
             padding: 0;
         }
-        
-        .feature-list li {
-            padding: var(--spacing-sm) 0;
-            padding-left: 2rem;
+
+        .checklist li {
+            padding: 12px 0;
+            padding-left: 35px;
             position: relative;
-            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 5px 0;
         }
-        
-        .feature-list li::before {
-            content: '✓';
+
+        .checklist li:before {
+            content: "✓";
             position: absolute;
             left: 0;
-            color: var(--neon-green);
+            top: 12px;
+            color: var(--success);
             font-weight: bold;
-        }
-        
-        /* 步骤样式 */
-        .step {
+            background: rgba(0, 255, 136, 0.2);
+            width: 25px;
+            height: 25px;
             display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .step-number {
-            flex-shrink: 0;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-bg);
+            border: 1px solid var(--success);
+            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.3);
         }
-        
-        .step-content {
-            flex: 1;
+
+        .checklist li:hover {
+            background: rgba(0, 255, 136, 0.05);
+            transform: translateX(5px);
         }
-        
-        .step-content h4 {
-            font-size: 1.25rem;
-            margin-bottom: var(--spacing-xs);
-            color: var(--text-primary);
-        }
-        
-        .step-content p {
-            color: var(--text-secondary);
-        }
-        
-        /* 警告框 */
-        .warning {
-            background: rgba(255, 0, 128, 0.1);
-            border: 1px solid var(--neon-pink);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            margin: var(--spacing-md) 0;
-        }
-        
-        .warning h4 {
-            color: var(--neon-pink);
-            margin-bottom: var(--spacing-xs);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-        
-        .warning p {
-            color: var(--text-secondary);
-        }
-        
-        /* 提示框 */
-        .tip {
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid var(--neon-green);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            margin: var(--spacing-md) 0;
-        }
-        
-        .tip h4 {
-            color: var(--neon-green);
-            margin-bottom: var(--spacing-xs);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-        
-        .tip p {
-            color: var(--text-secondary);
-        }
-        
-        /* 表格样式 */
-        .table-container {
-            overflow-x: auto;
-            margin: var(--spacing-md) 0;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--surface-bg);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-        }
-        
-        th, td {
-            padding: var(--spacing-sm) var(--spacing-md);
-            text-align: left;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        th {
+
+        .progress-bar {
             background: var(--accent-bg);
-            color: var(--neon-cyan);
-            font-weight: 600;
-        }
-        
-        td {
-            color: var(--text-secondary);
-        }
-        
-        tr:hover td {
-            background: var(--glass-bg);
-        }
-        
-        /* FAQ 样式 */
-        .faq-item {
-            background: var(--surface-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-sm);
+            height: 35px;
+            border-radius: 18px;
+            overflow: hidden;
+            margin: 25px 0;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan), var(--neon-purple));
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-bg);
+            font-weight: bold;
+            transition: width 0.5s ease;
+            position: relative;
             overflow: hidden;
         }
-        
-        .faq-question {
-            padding: var(--spacing-md);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition-fast);
+
+        .progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progress-shimmer 2s infinite;
         }
-        
-        .faq-question:hover {
-            background: var(--glass-bg);
+
+        @keyframes progress-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
-        
-        .faq-question h4 {
-            margin: 0;
-            color: var(--text-primary);
-            font-size: 1.1rem;
-        }
-        
-        .faq-answer {
-            padding: 0 var(--spacing-md) var(--spacing-md);
-            color: var(--text-secondary);
-            display: none;
-        }
-        
-        .faq-item.active .faq-answer {
-            display: block;
-        }
-        
-        .faq-item.active .faq-question {
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        /* 页脚 */
-        .footer {
-            background: var(--secondary-bg);
-            border-top: 1px solid var(--glass-border);
-            padding: var(--spacing-xl) 0;
-            margin-top: var(--spacing-xl);
-        }
-        
-        .footer-content {
+
+        footer {
+            background: var(--surface-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-top: 2px solid var(--neon-cyan);
             text-align: center;
-            color: var(--text-muted);
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .footer-links a {
+            padding: 50px;
             color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition-fast);
+            margin-top: 50px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .footer-links a:hover {
-            color: var(--neon-cyan);
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-green));
         }
-        
-        /* 响应式设计 */
+
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            header h1 {
+                font-size: 2em;
             }
-            
-            .hero p {
-                font-size: 1rem;
+
+            header {
+                padding: 50px 25px;
             }
-            
-            .navbar-nav {
+
+            .section {
+                padding: 25px 20px;
+            }
+
+            .nav ul {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
+
+            .nav {
+                padding: 20px;
+            }
+
+            .nav h2 {
+                font-size: 1.2em;
+            }
+
+            .step {
+                padding: 20px;
+            }
+
+            .tech-border::after {
                 display: none;
             }
-            
-            .section-title {
-                font-size: 2rem;
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.6em;
             }
-            
-            .step {
-                flex-direction: column;
+
+            .container {
+                padding: 15px;
             }
-            
-            .step-number {
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
+
+            .section {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .feature-grid {
+                gap: 15px;
+            }
+
+            .feature-card {
+                padding: 15px;
             }
         }
-        
-        /* 动画效果 */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
         }
-        
-        /* SVG 图标 */
-        .icon {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+            }
         }
-        
-        /* 高亮效果 */
-        .highlight {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(139, 92, 246, 0.2));
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: var(--neon-cyan);
+
+        .animate-on-scroll {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .glow-effect {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .tech-border {
+            position: relative;
+        }
+
+        .tech-border::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-green), var(--neon-cyan));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
         }
     </style>
 </head>
 <body>
-    <div id="particles"></div>
-    
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="navbar-brand">🚀 WordPress 自动化</div>
-            <ul class="navbar-nav">
-                <li><a href="#quickstart">快速开始</a></li>
-                <li><a href="#install">安装配置</a></li>
-                <li><a href="#usage">使用指南</a></li>
-                <li><a href="#features">核心功能</a></li>
-                <li><a href="#rules">规则说明</a></li>
-                <li><a href="#mcp">MCP 工具</a></li>
-                <li><a href="#faq">常见问题</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <section class="hero">
-        <div class="container">
-            <h1>WordPress 文章自动化系统</h1>
-            <p>基于 AI 的智能文章插图生成与管理系统，支持多站点、自动化插图、智能避让等强大功能</p>
-            <div class="hero-buttons">
-                <a href="#quickstart" class="btn btn-primary">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    快速开始
-                </a>
-                <a href="#features" class="btn btn-secondary">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                    了解功能
-                </a>
-            </div>
-        </div>
-    </section>
-    
-    <section id="quickstart" class="section">
-        <div class="container">
-            <h2 class="section-title">⚡ 快速开始</h2>
-            <div class="card fade-in">
-                <h3>5 分钟上手指南</h3>
-                <p>按照以下步骤，快速搭建你的 WordPress 文章自动化系统</p>
-                
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h4>准备环境</h4>
-                        <p>确保你已经安装了 Node.js (v18+) 和 Python (3.8+)</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>克隆项目</h4>
-                        <div class="code-block">
-                            <code>git clone https://github.com/evolution301/article-automation.git</code>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>安装依赖</h4>
-                        <div class="code-block">
-                            <code>npm install</code>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>配置环境</h4>
-                        <p>复制 <span class="highlight">configs/example.env</span> 到 <span class="highlight">configs/your-domain.env</span> 并填写配置</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h4>运行系统</h4>
-                        <div class="code-block">
-                            <code>npm run start -- --site your-domain.com</code>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="install" class="section">
-        <div class="container">
-            <h2 class="section-title">🔧 安装配置</h2>
-            
-            <div class="card fade-in">
-                <h3>系统要求</h3>
-                <ul class="feature-list">
-                    <li>Node.js 18.0 或更高版本</li>
-                    <li>Python 3.8 或更高版本</li>
-                    <li>WordPress 站点管理员权限</li>
-                    <li>OpenAI API 密钥（用于图片生成）</li>
-                    <li>足够的磁盘空间用于存储生成的图片</li>
-                </ul>
-            </div>
-            
-            <div class="card fade-in">
-                <h3>安装步骤</h3>
-                
-                <h4>1. 安装 Node.js</h4>
-                <p>访问 <a href="https://nodejs.org/" style="color: var(--neon-cyan);">nodejs.org</a> 下载并安装最新 LTS 版本</p>
-                
-                <h4>2. 安装 Python</h4>
-                <p>访问 <a href="https://www.python.org/downloads/" style="color: var(--neon-cyan);">python.org</a> 下载并安装 Python 3.8+</p>
-                
-                <h4>3. 克隆项目</h4>
-                <div class="code-block">
-                    <code>git clone https://github.com/evolution301/article-automation.git
-cd article-automation</code>
-                </div>
-                
-                <h4>4. 安装依赖</h4>
-                <div class="code-block">
-                    <code>npm install</code>
-                </div>
-            </div>
-            
-            <div class="card fade-in">
-                <h3>配置说明</h3>
-                <p>系统使用配置文件来管理不同站点的设置。配置文件分为两类：</p>
-                
-                <h4>环境配置 (.env)</h4>
-                <p>存储敏感信息，如 API 密钥、数据库凭证等</p>
-                <div class="code-block">
-                    <code><span class="comment"># configs/your-domain.com.env</span>
+    <div class="container">
+        <header class="tech-border">
+            <h1><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                <path d="M2 17L12 22L22 17"/>
+                <path d="M2 7L2 17"/>
+                <path d="M22 7L22 17"/>
+                <path d="M12 12L12 22"/>
+            </svg>文章生图自动化项目</h1>
+            <p>全自动化的 WordPress 文章配图系统</p>
+        </header>
 
-<span class="keyword">WORDPRESS_URL</span>=<span class="string">https://your-domain.com</span>
-<span class="keyword">WORDPRESS_USERNAME</span>=<span class="string">admin</span>
-<span class="keyword">WORDPRESS_PASSWORD</span>=<span class="string">your-password</span>
-<span class="keyword">OPENAI_API_KEY</span>=<span class="string">sk-...</span>
-<span class="keyword">GOOGLE_API_KEY</span>=<span class="string">...</span></code>
-                </div>
-                
-                <h4>业务配置 (.json)</h4>
-                <p>存储业务逻辑配置，如核心产品映射、风格定义等</p>
-                <div class="code-block">
-                    <code>{
-  <span class="string">"coreProduct"</span>: <span class="string">"eyeglasses"</span>,
-  <span class="string">"style"</span>: <span class="string">"B2B commercial photography"</span>,
-  <span class="string">"aspectRatio"</span>: <span class="string">"16:9"</span>
-}</code>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="usage" class="section">
-        <div class="container">
-            <h2 class="section-title">📖 使用指南</h2>
+        <nav class="nav tech-border">
+            <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>教程导航</h2>
+            <ul>
+                <li><a href="#quickstart" class="glow-effect"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <polygon points="13 2 3 14 12 14 23 2 17 7"/>
+                </svg>快速开始</a></li>
+                <li><a href="#install"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                    <line x1="12" x2="12" y1="22.08" y2="12"/>
+                </svg>安装配置</a></li>
+                <li><a href="#usage"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <path d="M4.5 16.5c-1.5 1.5-1.5 4.5 0 6s4.5 1.5 6 0l4-4"/>
+                    <path d="M13.5 6.5c1.5-1.5 4.5-1.5 6 0s1.5 4.5 0 6l-4 4"/>
+                    <path d="M19.5 7.5c1.5-1.5 1.5-4.5 0-6s-4.5-1.5-6 0l-4 4"/>
+                    <path d="M10.5 17.5c-1.5 1.5-4.5 1.5-6 0s-1.5-4.5 0-6l4-4"/>
+                </svg>使用教程</a></li>
+                <li><a href="#features"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <polygon points="12 2 15.09 8.26 22 9 17.14 14.14 22 15.09 15.09 22 12 18.91 9.91 22 6.86 17.14 9 22 2 12 9 8.26 2 12 2z"/>
+                </svg>核心功能</a></li>
+                <li><a href="#path"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>路径配置</a></li>
+                <li><a href="#rules"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 13 10 17 8 17"/>
+                </svg>规则与 SKILL</a></li>
+                <li><a href="#mcp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
+                </svg>MCP 工具</a></li>
+                <li><a href="#faq"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>常见问题</a></li>
+            </ul>
+        </nav>
+
+        <section id="quickstart" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <polygon points="13 2 3 14 12 14 23 2 17 7"/>
+            </svg>快速开始</h2>
             
-            <div class="card fade-in">
-                <h3>基本命令</h3>
-                
-                <h4>处理单篇文章</h4>
-                <div class="code-block">
-                    <code>npm run start -- --site your-domain.com --article-id 12345</code>
-                </div>
-                
-                <h4>批量处理文章</h4>
-                <div class="code-block">
-                    <code>npm run start -- --site your-domain.com --batch</code>
-                </div>
-                
-                <h4>清理文章插图</h4>
-                <div class="code-block">
-                    <code>npm run clean -- --site your-domain.com --article-id 12345</code>
-                </div>
-                
-                <h4>查看帮助</h4>
-                <div class="code-block">
-                    <code>npm run start -- --help</code>
-                </div>
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>安装依赖</strong>
+                <p>打开终端，进入项目目录，运行以下命令：</p>
+                <pre><code>npm install</code></pre>
             </div>
-            
-            <div class="card fade-in">
-                <h3>工作流程</h3>
-                <p>系统按照以下流程处理文章：</p>
-                
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h4>获取文章内容</h4>
-                        <p>从 WordPress 获取文章的完整内容，包括标题、正文、分类等</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>分析文章结构</h4>
-                        <p>识别 H2 章节标题，排除前言、结论、FAQ、CTA 等区域</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>生成图片 Prompt</h4>
-                        <p>基于核心产品和章节内容生成高质量的图片描述</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>生成图片</h4>
-                        <p>使用 OpenAI 或 Google API 生成高质量图片</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h4>上传图片</h4>
-                        <p>将图片上传到 WordPress 媒体库，并设置 SEO 元数据</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">6</div>
-                    <div class="step-content">
-                        <h4>插入图片</h4>
-                        <p>将图片插入到对应 H2 章节的正上方</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="features" class="section">
-        <div class="container">
-            <h2 class="section-title">✨ 核心功能</h2>
-            
-            <div class="card fade-in">
-                <h3>多站点支持</h3>
-                <p>系统支持同时管理多个 WordPress 站点，每个站点有独立的配置文件</p>
-                <ul class="feature-list">
-                    <li>通过 <span class="highlight">--site</span> 参数切换站点</li>
-                    <li>独立的配置文件管理</li>
-                    <li>独立的图片存储路径</li>
-                    <li>支持不同站点的不同业务规则</li>
-                </ul>
-            </div>
-            
-            <div class="card fade-in">
-                <h3>智能插图</h3>
-                <p>系统会自动分析文章结构，为每个 H2 章节生成合适的插图</p>
-                <ul class="feature-list">
-                    <li>自动识别 H2 章节标题</li>
-                    <li>基于章节内容生成相关图片</li>
-                    <li>智能避让前言、结论、FAQ、CTA 等区域</li>
-                    <li>每章节仅限一张图片</li>
-                </ul>
-            </div>
-            
-            <div class="card fade-in">
-                <h3>Prompt 工程</h3>
-                <p>系统使用先进的 Prompt 工程技术，确保生成的图片质量</p>
-                <ul class="feature-list">
-                    <li>核心产品优先原则</li>
-                    <li>语义深度关联</li>
-                    <li>禁止文字覆盖</li>
-                    <li>B2B 写实商业摄影风格</li>
-                </ul>
-            </div>
-            
-            <div class="card fade-in">
-                <h3>SEO 优化</h3>
-                <p>系统自动为图片添加 SEO 元数据，提升搜索引擎排名</p>
-                <ul class="feature-list">
-                    <li>优化的文件名（包含关键词）</li>
-                    <li>描述性 ALT 文本</li>
-                    <li>SEO 友好的图片标题</li>
-                    <li>多语言支持</li>
-                </ul>
-            </div>
-            
-            <div class="card fade-in">
-                <h3>安全操作</h3>
-                <p>系统提供多种安全机制，防止误操作</p>
-                <ul class="feature-list">
-                    <li>基于白名单的精确删除</li>
-                    <li>禁止全局删除命令</li>
-                    <li>仅移除图片相关标记</li>
-                    <li>保护其他 Gutenberg 区块</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    
-    <section id="rules" class="section">
-        <div class="container">
-            <h2 class="section-title">📋 规则说明</h2>
-            
-            <div class="card fade-in">
-                <h3>自动化插图规则</h3>
-                <p>系统遵循严格的插图规则，确保插图位置合理</p>
-                
-                <div class="tip">
-                    <h4>
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        插图位置
-                    </h4>
-                    <p>每篇 WordPress 文章的每个 H2 章节仅限一张图，且必须插入在 H2 标题的正上方</p>
-                </div>
-                
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>配置环境</strong>
+                <p>编辑 <code>configs/.env</code> 文件，填入你的 API 密钥：</p>
+                <pre><code>OPENAI_API_KEY=your-openai-api-key
+OPENAI_IMAGE_MODEL=dall-e-3
+OPENAI_BASE_URL=https://api.openai.com/v1</code></pre>
                 <div class="warning">
-                    <h4>
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-                        严格禁止区
-                    </h4>
-                    <p>严禁在以下区块生成或插入图片：</p>
-                    <ul class="feature-list">
-                        <li>前言 (Introduction)</li>
-                        <li>结论/总结 (Conclusion / Final Thoughts)</li>
-                        <li>常见问题 (FAQ / Frequently Asked Questions)</li>
-                        <li>CTA 区块（具有特定背景色、白色文字和转化按钮的引导块）</li>
-                    </ul>
+                    <strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-2.86 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>重要提示：</strong>不要将 <code>.env</code> 文件分享给他人，保护好你的 API 密钥！
                 </div>
             </div>
-            
-            <div class="card fade-in">
-                <h3>Prompt 生成规则</h3>
-                <p>系统使用第一原理生成高质量的图片 Prompt</p>
-                
-                <div class="tip">
-                    <h4>
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        核心产品优先
-                    </h4>
-                    <p>每一张图片的 Prompt 必须首先明确文章的"核心产品"（Core Product），所有视觉描述必须围绕该产品展开</p>
-                </div>
-                
-                <div class="tip">
-                    <h4>
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        语义深度关联
-                    </h4>
-                    <p>必须从 H2 章节下方提取前 200 个字符的正文内容融入 Prompt，确保图片内容与文章细节完美匹配</p>
-                </div>
-                
-                <div class="warning">
-                    <h4>
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-                        禁止文字覆盖
-                    </h4>
-                    <p>视觉描述中必须包含严格的负面约束，严禁生成任何文字、字母、水印或人工覆盖层</p>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>配置站点</strong>
+                <p>复制站点配置模板：</p>
+                <pre><code>cp configs/template.env configs/your-site.com.env
+cp configs/template.json configs/your-site.com.json</code></pre>
+                <p>然后编辑 <code>configs/your-site.com.env</code>，填入 WordPress 站点信息：</p>
+                <pre><code>WP_SITE_URL=https://your-site.com
+WP_USERNAME=your-username
+WP_APP_PASSWORD=xxxx xxxx xxxx xxxx</code></pre>
+                <div class="info">
+                    <strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.707-.707M15 7l-3-3m0 12l3-3m-6 0l-3 3m3-12l-3 3"/>
+                    </svg>如何获取 WordPress 应用密码：</strong>
+                    <ol>
+                        <li>登录 WordPress 后台</li>
+                        <li>进入：用户 → 个人资料</li>
+                        <li>滚动到"应用密码"部分</li>
+                        <li>输入名称（如"文章配图工具"），点击"添加新应用密码"</li>
+                        <li>复制生成的密码（格式：<code>xxxx xxxx xxxx xxxx</code>）</li>
+                    </ol>
                 </div>
             </div>
-            
-            <div class="card fade-in">
-                <h3>视觉风格规范</h3>
-                <p>系统采用 B2B 写实商业摄影风格</p>
-                
-                <div class="tip">
-                    <h4>
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        标准风格
-                    </h4>
-                    <ul class="feature-list">
-                        <li>B2B 写实商业摄影风格</li>
-                        <li>高端摄影棚灯光</li>
-                        <li>产品细节清晰锐利</li>
-                        <li>背景专业干净</li>
-                        <li>展现真实的材质质感（如 TR90、乙酸酯、玻璃、金属等）</li>
-                    </ul>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>开始使用</strong>
+                <p>列出草稿文章：</p>
+                <pre><code>npx tsx scripts/cli.ts drafts:list --site your-site.com</code></pre>
+                <p>生成配图方案（告诉 AI）：</p>
+                <pre><code>"为 Post 123 生成配图方案，站点是 your-site.com"</code></pre>
+                <p>执行完整流程：</p>
+                <pre><code>npx tsx scripts/cli.ts workflow:full 123 --site your-site.com</code></pre>
+            </div>
+
+            <div class="success">
+                <strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>恭喜！你已经完成了快速开始！</strong>
+                <p>现在可以继续阅读下面的详细教程，深入了解项目的所有功能。</p>
+            </div>
+        </section>
+
+        <section id="install" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" x2="12" y1="22.08" y2="12"/>
+            </svg>安装配置</h2>
+
+            <h3>系统要求</h3>
+            <ul class="checklist">
+                <li>Node.js >= 18.0.0</li>
+                <li>npm / pnpm / bun（任选其一）</li>
+                <li>稳定的网络连接</li>
+                <li>WordPress 站点访问权限</li>
+            </ul>
+
+            <h3>安装 Node.js</h3>
+            <p>从官网下载并安装最新 LTS 版本：</p>
+            <pre><code>https://nodejs.org/</code></pre>
+            <p>安装后验证版本：</p>
+            <pre><code>node --version</code></pre>
+
+            <h3>安装依赖</h3>
+            <p>进入项目目录，运行：</p>
+            <pre><code>npm install</code></pre>
+            <div class="info">
+                <strong>💡 推荐使用 pnpm：</strong>
+                <pre><code>npm install -g pnpm
+pnpm install</code></pre>
+            </div>
+
+            <h3>验证安装</h3>
+            <p>测试 tsx 是否可用：</p>
+            <pre><code>npx tsx --version</code></pre>
+            <p>测试 CLI 命令：</p>
+            <pre><code>npx tsx scripts/cli.ts --help</code></pre>
+        </section>
+
+        <section id="usage" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <path d="M4.5 16.5c-1.5 1.5-1.5 4.5 0 6s4.5 1.5 6 0l4-4"/>
+                <path d="M13.5 6.5c1.5-1.5 4.5-1.5 6 0s1.5 4.5 0 6l-4 4"/>
+                <path d="M19.5 7.5c1.5-1.5 1.5-4.5 0-6s-4.5-1.5-6 0l-4 4"/>
+                <path d="M10.5 17.5c-1.5 1.5-4.5 1.5-6 0s-1.5-4.5 0-6l4-4"/>
+            </svg>使用教程</h2>
+
+            <h3>第一步：列出草稿文章</h3>
+            <p>查看 WordPress 中的所有草稿文章：</p>
+            <pre><code>npx tsx scripts/cli.ts drafts:list --site your-site.com</code></pre>
+            <p>这将显示所有草稿文章的 ID 和标题。</p>
+
+            <h3>第二步：生成配图方案</h3>
+            <p>告诉 AI 为指定文章生成配图方案：</p>
+            <pre><code>"为 Post 123 生成配图方案，站点是 your-site.com"</code></pre>
+            <p>AI 会自动分析文章内容并生成 <code>IMAGE/your-site.com/&lt;article-slug&gt;/outline-123.md</code> 文件。</p>
+
+            <h3>第三步：执行完整流程</h3>
+            <p>运行自动化脚本，处理单篇文章：</p>
+            <pre><code>npx tsx scripts/cli.ts workflow:full 123 --site your-site.com</code></pre>
+            <p>这个命令会依次执行：</p>
+            <ol class="checklist">
+                <li>同步文章标题到 outline</li>
+                <li>生成缺失的图片</li>
+                <li>清理旧的媒体文件</li>
+                <li>上传图片并插入文章</li>
+            </ol>
+
+            <h3>批量处理多篇文章</h3>
+            <p>如果有多篇文章需要处理，可以指定多个 ID：</p>
+            <pre><code>npx tsx scripts/cli.ts workflow:full 123 456 789 --site your-site.com</code></pre>
+
+            <h3>验证文章状态</h3>
+            <p>检查图片插入状态和 SEO 信息是否完整：</p>
+            <pre><code>npx tsx scripts/cli.ts posts:verify --site your-site.com</code></pre>
+        </section>
+
+        <section id="features" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <polygon points="12 2 15.09 8.26 22 9 17.14 14.14 22 15.09 15.09 22 12 18.91 9.91 22 6.86 17.14 9 22 2 12 9 8.26 2 12 2z"/>
+            </svg>核心功能</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🎯 自动化策划</h4>
+                    <p>根据文章内容自动生成配图方案，智能识别章节结构和核心产品。</p>
                 </div>
-                
-                <div class="warning">
-                    <h4>
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-                        严禁风格
-                    </h4>
-                    <ul class="feature-list">
-                        <li>严禁任何科幻、未来感、赛博朋克或抽象概念元素</li>
-                        <li>严禁使用 3D 渲染、插画、卡通或魔法特效</li>
-                        <li>严禁出现人脸、人物或任何形式的视觉幻觉</li>
-                    </ul>
+                <div class="feature-card">
+                    <h4>🖼️ 批量生成</h4>
+                    <p>检查本地目录，自动补全缺失的图片，支持断点续传。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>☁️ 智能上传</h4>
+                    <p>上传图片到 WordPress 媒体库，具备自动去重和元数据更新功能。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📍 精准插入</h4>
+                    <p>根据章节标题将图片插入到文章的合适位置，智能避让特殊区块。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔄 批量处理</h4>
+                    <p>支持单篇或批量处理多篇文章，提高工作效率。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔍 质量审核</h4>
+                    <p>使用 article-audit 技能审核插图质量，确保符合规范。</p>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <section id="mcp" class="section">
-        <div class="container">
-            <h2 class="section-title">🔌 MCP 工具</h2>
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: var(--spacing-lg);">系统集成了多种 MCP (Model Context Protocol) 工具，提供强大的扩展能力</p>
-            
-            <div class="card fade-in">
-                <h3>Tavily 搜索工具</h3>
-                <p>提供强大的网络搜索和信息提取能力</p>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>工具名称</th>
-                                <th>功能描述</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>tavily_search</td>
-                                <td>网络搜索，获取最新信息</td>
-                            </tr>
-                            <tr>
-                                <td>tavily_extract</td>
-                                <td>从 URL 提取内容</td>
-                            </tr>
-                            <tr>
-                                <td>tavily_crawl</td>
-                                <td>爬取网站内容</td>
-                            </tr>
-                            <tr>
-                                <td>tavily_map</td>
-                                <td>映射网站结构</td>
-                            </tr>
-                            <tr>
-                                <td>tavily_research</td>
-                                <td>综合研究任务</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        </section>
+
+        <section id="path" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>路径配置</h2>
+
+            <div class="warning">
+                <strong>⚠️ 重要提示：</strong>项目使用相对路径，确保在不同操作系统上都能正常工作。
             </div>
-            
-            <div class="card fade-in">
-                <h3>GitHub 工具</h3>
-                <p>提供完整的 GitHub 仓库管理能力</p>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>工具名称</th>
-                                <th>功能描述</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>create_repository</td>
-                                <td>创建新仓库</td>
-                            </tr>
-                            <tr>
-                                <td>push_files</td>
-                                <td>推送多个文件</td>
-                            </tr>
-                            <tr>
-                                <td>get_file_contents</td>
-                                <td>获取文件内容</td>
-                            </tr>
-                            <tr>
-                                <td>create_or_update_file</td>
-                                <td>创建或更新文件</td>
-                            </tr>
-                            <tr>
-                                <td>create_issue</td>
-                                <td>创建 Issue</td>
-                            </tr>
-                            <tr>
-                                <td>create_pull_request</td>
-                                <td>创建 Pull Request</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+            <h3>项目目录结构</h3>
+            <pre><code>项目根目录/
+├── IMAGE/              # 图片存储目录（自动创建）
+├── configs/             # 配置文件
+├── scripts/             # 脚本文件
+└── ...</code></pre>
+
+            <h3>不同操作系统的路径</h3>
+            <ul>
+                <li><strong>Windows:</strong> <code>C:\Users\Username\Project\</code></li>
+                <li><strong>macOS:</strong> <code>/Users/Username/Project/</code></li>
+                <li><strong>Linux:</strong> <code>/home/username/Project/</code></li>
+            </ul>
+
+            <h3>遇到路径问题怎么办？</h3>
+            <p>告诉 AI 你的实际情况：</p>
+            <pre><code>"我的项目路径是：/Users/john/projects/article-automation
+请帮我检查并更新所有文档中的路径"</code></pre>
+            <p>AI 会自动帮你修复路径问题。</p>
+
+            <div class="info">
+                <strong>💡 详细指南：</strong>查看 <code>PATH_SETUP.md</code> 文件了解更多路径配置细节。
             </div>
-            
-            <div class="card fade-in">
-                <h3>文件系统工具</h3>
-                <p>提供本地文件系统访问能力</p>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>工具名称</th>
-                                <th>功能描述</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>read_file</td>
-                                <td>读取文本文件</td>
-                            </tr>
-                            <tr>
-                                <td>read_media_file</td>
-                                <td>读取图片或音频文件</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        </section>
+
+        <section id="rules" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 13 10 17 8 17"/>
+            </svg>规则与 SKILL</h2>
+
+            <h3>什么是规则？</h3>
+            <p>规则是项目级别的约束和指导原则，存储在 <code>.trae/rules/</code> 目录下。</p>
+            <ul class="checklist">
+                <li>01-architecture.md - 核心流程与架构</li>
+                <li>02-placement-rules.md - 自动化插图规则</li>
+                <li>03-prompt-engineering.md - Prompt 生成第一原理</li>
+                <li>04-visual-style.md - 视觉风格规范</li>
+                <li>05-safety-operations.md - 安全操作边界</li>
+                <li>06-metadata-seo.md - 图片元数据与 SEO 规范</li>
+            </ul>
+
+            <h3>什么是 SKILL？</h3>
+            <p>SKILL 是可复用的 AI 能力模块，存储在 <code>.trae/skills/</code> 目录下。</p>
+            <ul class="checklist">
+                <li>article-audit - 审核文章插图是否符合规范</li>
+                <li>baoyu-article-illustrator - 分析文章并生成配图方案</li>
+                <li>baoyu-image-gen - AI 图片生成</li>
+            </ul>
+
+            <h3>如何创建自定义规则？</h3>
+            <p>在 <code>.trae/rules/</code> 目录下创建新的 <code>.md</code> 文件：</p>
+            <pre><code># 你的规则标题
+
+## 规则目的
+简要说明这条规则的目的。
+
+## 核心要求
+- 要求 1
+- 要求 2
+
+## 禁止事项
+- ❌ 禁止行为 1
+- ❌ 禁止行为 2</code></pre>
+
+            <h3>如何创建自定义 SKILL？</h3>
+            <p>在 <code>.trae/skills/</code> 目录下创建新的 SKILL 目录和 <code>SKILL.md</code> 文件：</p>
+            <pre><code>---
+name: your-skill-name
+description: 简短描述这个 SKILL 的功能
+---
+
+# SKILL 标题
+
+## 功能描述
+详细描述这个 SKILL 的功能。
+
+## 输入参数
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| param1 | string | 是 | 参数说明 |
+
+## 输出格式
+描述 SKILL 的输出格式。</code></pre>
+
+            <div class="info">
+                <strong>💡 详细指南：</strong>查看 <code>CREATE_RULES_SKILLS.md</code> 文件了解更多创建规则和 SKILL 的细节。
             </div>
-            
-            <div class="card fade-in">
-                <h3>EdgeOne Pages 工具</h3>
-                <p>提供静态网站部署能力</p>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>工具名称</th>
-                                <th>功能描述</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>deploy_folder</td>
-                                <td>部署文件夹到 EdgeOne Pages</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        </section>
+
+        <section id="mcp" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
+            </svg>MCP 工具</h2>
+
+            <p>MCP (Model Context Protocol) 工具允许 AI 访问外部服务，扩展项目能力。</p>
+
+            <h3>可用的 MCP 工具</h3>
+
+            <h4>Tavily 搜索和提取工具</h4>
+            <ul class="checklist">
+                <li><strong>mcp_tavily_tavily_search</strong> - 网络搜索</li>
+                <li><strong>mcp_tavily_tavily_extract</strong> - URL 内容提取</li>
+                <li><strong>mcp_tavily_tavily_crawl</strong> - 网站爬取</li>
+                <li><strong>mcp_tavily_tavily_map</strong> - 网站结构映射</li>
+                <li><strong>mcp_tavily_tavily_research</strong> - 深度研究</li>
+            </ul>
+
+            <h4>GitHub 工具</h4>
+            <ul class="checklist">
+                <li><strong>mcp_GitHub_search_repositories</strong> - 搜索仓库</li>
+                <li><strong>mcp_GitHub_create_repository</strong> - 创建仓库</li>
+                <li><strong>mcp_GitHub_get_file_contents</strong> - 获取文件内容</li>
+                <li><strong>mcp_GitHub_create_or_update_file</strong> - 创建/更新文件</li>
+                <li><strong>mcp_GitHub_push_files</strong> - 批量推送文件</li>
+                <li><strong>mcp_GitHub_create_issue</strong> - 创建 Issue</li>
+                <li><strong>mcp_GitHub_create_pull_request</strong> - 创建 PR</li>
+            </ul>
+
+            <h4>文件系统工具</h4>
+            <ul class="checklist">
+                <li><strong>mcp_filesystem_read_file</strong> - 读取文件</li>
+                <li><strong>mcp_filesystem_read_media_file</strong> - 读取媒体文件</li>
+            </ul>
+
+            <h4>EdgeOne Pages 工具</h4>
+            <ul class="checklist">
+                <li><strong>mcp_edgeone-pages-mcp-server_deploy_folder</strong> - 部署文件夹</li>
+            </ul>
+
+            <h4>知识图谱工具</h4>
+            <ul class="checklist">
+                <li><strong>mcp_memory_read_graph</strong> - 读取知识图谱</li>
+            </ul>
+
+            <h3>如何使用 MCP 工具？</h3>
+            <p>直接告诉 AI 你想做什么，AI 会自动选择合适的 MCP 工具：</p>
+            <pre><code>"搜索最新的 WordPress REST API 文档"</code></pre>
+            <p>AI 会自动调用 <code>mcp_tavily_tavily_search</code> 工具。</p>
+
+            <div class="info">
+                <strong>💡 详细指南：</strong>查看 <code>MCP_TOOLS.md</code> 文件了解更多 MCP 工具的使用方法。
             </div>
-            
-            <div class="card fade-in">
-                <h3>记忆管理工具</h3>
-                <p>提供长期记忆存储和检索能力</p>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>工具名称</th>
-                                <th>功能描述</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>read_graph</td>
-                                <td>读取完整的知识图谱</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        </section>
+
+        <section id="faq" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>常见问题</h2>
+
+            <h3>安装相关问题</h3>
+
+            <h4>Q1: Node.js 版本要求是什么？</h4>
+            <p>A: 需要 Node.js >= 18.0.0。检查版本：</p>
+            <pre><code>node --version</code></pre>
+
+            <h4>Q2: 安装依赖时报错怎么办？</h4>
+            <p>A: 清除缓存重试：</p>
+            <pre><code>npm cache clean --force
+npm install</code></pre>
+
+            <h3>配置相关问题</h3>
+
+            <h4>Q3: 如何获取 WordPress 应用密码？</h4>
+            <p>A: 按照以下步骤：</p>
+            <ol>
+                <li>登录 WordPress 后台</li>
+                <li>进入：用户 → 个人资料</li>
+                <li>滚动到"应用密码"部分</li>
+                <li>输入名称，点击"添加新应用密码"</li>
+                <li>复制生成的密码</li>
+            </ol>
+
+            <h4>Q4: WordPress API 认证失败怎么办？</h4>
+            <p>A: 检查以下几点：</p>
+            <ul class="checklist">
+                <li>应用密码是否正确</li>
+                <li>用户名是否正确</li>
+                <li>站点 URL 是否正确</li>
+                <li>用户是否有足够的权限</li>
+            </ul>
+
+            <h3>使用相关问题</h3>
+
+            <h4>Q5: 图片生成失败怎么办？</h4>
+            <p>A: 检查以下几点：</p>
+            <ul class="checklist">
+                <li>API 密钥是否有效</li>
+                <li>API 余额是否充足</li>
+                <li>网络连接是否正常</li>
+                <li>Prompt 是否符合规范</li>
+            </ul>
+
+            <h4>Q6: 图片没有插入到文章怎么办？</h4>
+            <p>A: 检查以下几点：</p>
+            <ul class="checklist">
+                <li>outline 文件中的"插入图片位置"是否与文章 H2 标题完全匹配</li>
+                <li>文章是否包含该 H2 标题</li>
+                <li>是否触发了避让规则（CTA、FAQ 等）</li>
+            </ul>
+
+            <h4>Q7: 如何删除已插入的图片？</h4>
+            <p>A: 使用清理命令：</p>
+            <pre><code># 移除文章中的图片块
+npx tsx scripts/cli.ts posts:clean 123 --site your-site.com
+
+# 删除媒体库中的图片
+npx tsx scripts/cli.ts media:purge --names=hero-123.png --site your-site.com</code></pre>
+
+            <h3>成本与性能</h3>
+
+            <h4>Q8: 如何控制 API 成本？</h4>
+            <p>A: 以下是一些优化建议：</p>
+            <ul class="checklist">
+                <li>使用断点续传，已生成的图片不会重新生成</li>
+                <li>选择便宜的 API（Google Gemini 通常比 OpenAI 便宜）</li>
+                <li>批量处理，减少 API 调用次数</li>
+                <li>测试环境先验证，避免浪费</li>
+            </ul>
+
+            <h4>Q9: 如何提高执行速度？</h4>
+            <p>A: 以下是一些优化建议：</p>
+            <ul class="checklist">
+                <li>使用 pnpm 或 bun，比 npm 更快</li>
+                <li>批量处理多篇文章</li>
+                <li>确保网络连接稳定</li>
+                <li>减少重试，配置合理的超时时间</li>
+            </ul>
+
+            <div class="info">
+                <strong>💡 更多问题：</strong>查看 <code>FAQ.md</code> 文件了解更多常见问题和解决方案。
             </div>
-        </div>
-    </section>
-    
-    <section id="faq" class="section">
-        <div class="container">
-            <h2 class="section-title">❓ 常见问题</h2>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <h4>如何配置多个站点？</h4>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </div>
-                <div class="faq-answer">
-                    <p>为每个站点创建独立的配置文件：<code>configs/domain1.env</code> 和 <code>configs/domain1.json</code>。使用 <code>--site domain1</code> 参数来指定要操作的站点。</p>
-                </div>
+        </section>
+
+        <section id="tips" class="section">
+            <h2><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.707-.707M15 7l-3-3m0 12l3-3m-6 0l-3 3m3-12l-3 3"/>
+            </svg>最佳实践</h2>
+
+            <h3>安全注意事项</h3>
+            <ul class="checklist">
+                <li>保护 API 密钥，不要将 <code>.env</code> 文件分享给他人</li>
+                <li>定期更换 API 密钥</li>
+                <li>仅授予 WordPress 应用密码必要的权限</li>
+                <li>执行批量操作前先备份 WordPress</li>
+            </ul>
+
+            <h3>操作注意事项</h3>
+            <ul class="checklist">
+                <li>所有脚本可重复执行，不会产生重复内容</li>
+                <li>图片生成支持中断后继续</li>
+                <li>已上传的图片不会重复上传</li>
+                <li>已插入的图片不会重复插入</li>
+            </ul>
+
+            <h3>质量控制</h3>
+            <ul class="checklist">
+                <li>检查生成的图片是否符合 B2B 风格</li>
+                <li>确保没有文字、水印</li>
+                <li>验证产品细节清晰</li>
+                <li>Alt 文本不超过 125 字符</li>
+                <li>Title 包含关键词</li>
+            </ul>
+
+            <h3>学习路径</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%">25% 快速入门</div>
             </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <h4>图片存储在哪里？</h4>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </div>
-                <div class="faq-answer">
-                    <p>图片存储在 <code>IMAGE/&lt;domain&gt;/&lt;article-slug&gt;/</code> 路径下，每个站点和每篇文章都有独立的存储目录。</p>
-                </div>
+            <p>阅读快速入门指南，完成基本配置</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%">50% 深入学习</div>
             </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <h4>如何自定义图片风格？</h4>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </div>
-                <div class="faq-answer">
-                    <p>在站点的 JSON 配置文件中修改 <code>style</code> 字段，可以自定义图片的视觉风格。系统默认使用 B2B 写实商业摄影风格。</p>
-                </div>
+            <p>阅读学员完整指南，了解所有功能</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%">75% 实践操作</div>
             </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <h4>如何批量处理文章？</h4>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </div>
-                <div class="faq-answer">
-                    <p>使用 <code>--batch</code> 参数可以批量处理文章。系统会自动获取所有需要处理的文章列表，并逐个处理。</p>
-                </div>
+            <p>处理第一篇文章，遇到问题查阅 FAQ</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%">100% 进阶学习</div>
             </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <h4>如何清理已生成的插图？</h4>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </div>
-                <div class="faq-answer">
-                    <p>使用 <code>npm run clean -- --site your-domain.com --article-id 12345</code> 命令可以清理指定文章的插图。系统会基于白名单精确删除，不会影响其他图片。</p>
-                </div>
-            </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question">
-                    <h4>支持哪些图片生成 API？</h4>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                </div>
-                <div class="faq-answer">
-                    <p>系统支持 OpenAI DALL-E 和 Google Imagen 两种图片生成 API。你可以在配置文件中选择使用哪种 API。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <footer class="footer">
-        <div class="container footer-content">
-            <div class="footer-links">
-                <a href="#quickstart">快速开始</a>
-                <a href="#install">安装配置</a>
-                <a href="#usage">使用指南</a>
-                <a href="#features">核心功能</a>
-                <a href="#rules">规则说明</a>
-                <a href="#mcp">MCP 工具</a>
-                <a href="#faq">常见问题</a>
-            </div>
-            <p>&copy; 2024 WordPress 文章自动化系统. All rights reserved.</p>
-        </div>
-    </footer>
-    
+            <p>自定义规则和 SKILL，优化工作流程</p>
+        </section>
+
+        <footer class="tech-border">
+            <p><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                <path d="M2 17L12 22L22 17"/>
+                <path d="M2 7L2 17"/>
+                <path d="M22 7L22 17"/>
+                <path d="M12 12L12 22"/>
+            </svg>文章生图自动化项目 - 学员版</p>
+            <p>如有问题，请联系导师获取帮助</p>
+            <p>祝学习愉快！</p>
+        </footer>
+    </div>
+
     <script>
-        // 粒子效果
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.style.cssText = `
-                position: fixed;
-                width: 2px;
-                height: 2px;
-                background: var(--neon-cyan);
-                pointer-events: none;
-                z-index: 9999;
-                opacity: 0;
-            `;
-            
-            const startX = Math.random() * window.innerWidth;
-            const startY = Math.random() * window.innerHeight;
-            
-            particle.style.left = startX + 'px';
-            particle.style.top = startY + 'px';
-            
-            document.body.appendChild(particle);
-            
-            const duration = 3000 + Math.random() * 2000;
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 100 + Math.random() * 200;
-            
-            particle.animate([
-                { opacity: 0, transform: 'translate(0, 0)' },
-                { opacity: 1, transform: 'translate(0, 0)', offset: 0.1 },
-                { opacity: 0, transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)` }
-            ], {
-                duration: duration,
-                easing: 'ease-out'
-            }).onfinish = () => particle.remove();
-        }
-        
-        // 创建粒子
-        setInterval(createParticle, 200);
-        
-        // 鼠标跟随效果
-        document.addEventListener('mousemove', (e) => {
-            const glow = document.createElement('div');
-            glow.style.cssText = `
-                position: fixed;
-                width: 200px;
-                height: 200px;
-                background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent);
-                pointer-events: none;
-                z-index: 1;
-                transform: translate(-50%, -50%);
-                left: ${e.clientX}px;
-                top: ${e.clientY}px;
-            `;
-            
-            document.body.appendChild(glow);
-            
-            glow.animate([
-                { opacity: 1 },
-                { opacity: 0 }
-            ], {
-                duration: 500,
-                easing: 'ease-out'
-            }).onfinish = () => glow.remove();
-        });
-        
-        // 滚动动画
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-        
-        // FAQ 手风琴
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                const isActive = item.classList.contains('active');
-                
-                // 关闭所有
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                
-                // 如果之前不是激活状态，则激活
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-        
         // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -1309,6 +1296,94 @@ cd article-automation</code>
                 }
             });
         });
+
+        // 导航高亮
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.background = '';
+                link.style.color = '';
+                link.style.borderColor = '';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.background = 'var(--accent-bg)';
+                    link.style.color = 'var(--text-primary)';
+                    link.style.borderColor = 'var(--neon-cyan)';
+                }
+            });
+        });
+
+        // 动态加载动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-on-scroll');
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有section
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // 观察所有feature-card
+        document.querySelectorAll('.feature-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // 添加粒子效果
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 2px;
+                height: 2px;
+                background: var(--neon-cyan);
+                pointer-events: none;
+                z-index: 9999;
+                opacity: 0.8;
+            `;
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = Math.random() * window.innerHeight + 'px';
+            particle.style.animation = `fall ${3 + Math.random() * 4}s linear`;
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 7000);
+        }
+
+        // 定期创建粒子
+        setInterval(createParticle, 2000);
+
+        // 添加下落动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+
     </script>
 </body>
 </html>
