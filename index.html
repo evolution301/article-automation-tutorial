@@ -170,7 +170,7 @@
             max-width: 800px;
         }
 
-        /* --- AI 对话框组件 (核心新增) --- */
+        /* --- AI 对话框组件 --- */
         .ai-chat-box {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
@@ -199,8 +199,6 @@
             margin-bottom: 16px;
         }
 
-        .chat-message:last-child { margin-bottom: 0; }
-
         .avatar {
             width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
@@ -218,14 +216,12 @@
             position: relative;
         }
 
-        /* 用户消息样式 */
         .chat-message.user .message-content {
             background: var(--bg-chat-user);
             color: var(--text-main);
             border-top-left-radius: 2px;
         }
         
-        /* AI 消息样式 */
         .chat-message.ai .message-content {
             background: var(--bg-chat-ai);
             color: var(--text-muted);
@@ -249,23 +245,12 @@
             background: var(--bg-code);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            margin: 0 0 40px 52px; /* Indent to align with chat flow */
+            margin: 0 0 40px 52px;
             overflow: hidden;
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
             position: relative;
         }
         
-        /* 连接线：连接 Chat 和 Code */
-        .connection-line {
-            position: absolute;
-            left: 42px; /* Center of avatar */
-            top: -20px;
-            bottom: -20px;
-            width: 2px;
-            background: var(--border);
-            z-index: -1;
-        }
-
         .code-header {
             background: rgba(255,255,255,0.02);
             padding: 10px 16px;
@@ -299,8 +284,13 @@
             padding: 20px; border-radius: var(--radius-md); margin: 32px 0; border-left: 4px solid;
             background: rgba(255,255,255,0.02); display: flex; gap: 16px;
         }
+        .callout-icon { flex-shrink: 0; width: 24px; height: 24px; margin-top: 2px; }
         .callout.info { border-color: var(--primary); background: rgba(59, 130, 246, 0.05); }
+        .callout.info .callout-icon { color: var(--primary); }
         .callout.warning { border-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
+        .callout.warning .callout-icon { color: var(--warning); }
+        .callout.success { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
+        .callout.success .callout-icon { color: var(--success); }
         
         /* 清单列表 */
         ul.checklist { list-style: none; padding: 0; }
@@ -311,6 +301,48 @@
             content: "✓"; position: absolute; left: 0; top: 16px; width: 20px; height: 20px; 
             background: rgba(16, 185, 129, 0.15); color: var(--success); border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;
+        }
+
+        /* 步骤条 */
+        .timeline { position: relative; margin: 40px 0; padding-left: 20px; border-left: 2px solid var(--border); }
+        .step-item { position: relative; padding-left: 40px; margin-bottom: 60px; }
+        .step-marker {
+            position: absolute; left: -29px; top: 0;
+            width: 16px; height: 16px;
+            background: var(--bg-body); border: 2px solid var(--primary);
+            border-radius: 50%; box-shadow: 0 0 0 6px var(--bg-body);
+        }
+        .step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .step-number { font-family: 'JetBrains Mono'; color: var(--primary); font-weight: 700; opacity: 0.8; }
+        .step-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin: 0; }
+
+        /* 功能网格 */
+        .grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px; }
+        .feature-box {
+            background: var(--bg-card); padding: 30px; border-radius: var(--radius-lg);
+            border: 1px solid var(--border); transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .feature-box:hover { transform: translateY(-5px); border-color: var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .feature-icon { 
+            width: 48px; height: 48px; background: rgba(255,255,255,0.05); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--text-main);
+        }
+
+        /* 进度条 */
+        .progress-wrapper { margin-bottom: 24px; }
+        .progress-bar {
+            height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 8px 0;
+        }
+        .progress-fill {
+            height: 100%; background: var(--trae-gradient);
+            border-radius: 4px;
+        }
+        .progress-label { font-size: 0.85rem; color: var(--text-code); font-weight: 500; }
+
+        /* 页脚 */
+        footer {
+            margin-top: 100px; padding: 40px 0; border-top: 1px solid var(--border);
+            text-align: center; color: var(--text-muted); font-size: 0.9rem;
         }
 
         /* 响应式 */
@@ -333,35 +365,19 @@
 
         <nav>
             <div class="nav-group">
-                <h3>交互式指南</h3>
-                <a href="#quickstart" class="nav-item active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 23 2 17 7"/></svg>
-                    快速开始 (Chat)
-                </a>
-                <a href="#install" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
-                    环境安装
-                </a>
-                <a href="#features" class="nav-item">
+                <h3>项目概览</h3>
+                <a href="#features" class="nav-item active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9 17.14 14.14 22 15.09 15.09 22 12 18.91 9.91 22 6.86 17.14 9 22 2 12 9 8.26 2 12 2z"/></svg>
                     核心功能
                 </a>
             </div>
 
             <div class="nav-group">
-                <h3>工作流</h3>
-                <a href="#usage" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.5-1.5 4.5 0 6s4.5 1.5 6 0l4-4"/><path d="M13.5 6.5c1.5-1.5 4.5-1.5 6 0s1.5 4.5 0 6l-4 4"/><path d="M19.5 7.5c1.5-1.5 1.5-4.5 0-6s-4.5-1.5-6 0l-4 4"/><path d="M10.5 17.5c-1.5 1.5-4.5 1.5-6 0s-1.5-4.5 0-6l4-4"/></svg>
-                    执行步骤
+                <h3>配置环境</h3>
+                <a href="#install" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
+                    环境安装 (Hybrid)
                 </a>
-                <a href="#path" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                    路径配置
-                </a>
-            </div>
-
-            <div class="nav-group">
-                <h3>高级</h3>
                 <a href="#rules" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
                     规则与 SKILL
@@ -369,6 +385,26 @@
                 <a href="#mcp" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
                     MCP 工具
+                </a>
+            </div>
+
+            <div class="nav-group">
+                <h3>运行项目</h3>
+                <a href="#quickstart" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 23 2 17 7"/></svg>
+                    快速开始 (Chat)
+                </a>
+            </div>
+
+            <div class="nav-group">
+                <h3>高级配置</h3>
+                <a href="#path" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    路径配置
+                </a>
+                <a href="#tips" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.707-.707M15 7l-3-3m0 12l3-3m-6 0l-3 3m3-12l-3 3"/></svg>
+                    最佳实践
                 </a>
                 <a href="#faq" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -391,167 +427,40 @@
             <p>基于 Trae / Cursor 的全自动化 WordPress 配图解决方案。你只需输入指令，代码自动运行。</p>
         </header>
 
-        <section id="quickstart">
+        <section id="features">
             <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 23 2 17 7"/></svg>
-                快速开始 (Trae 交互模式)
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9 17.14 14.14 22 15.09 15.09 22 12 18.91 9.91 22 6.86 17.14 9 22 2 12 9 8.26 2 12 2z"/></svg>
+                核心功能
             </h2>
-            <p>本项目已针对 Trae 进行了优化。你无需手动敲击所有命令，直接将 Prompt 复制给 AI 即可。</p>
-            
-            <div style="margin-top: 40px;">
-                <h3 style="margin-top:0">01. 初始化环境</h3>
-                
-                <div class="ai-chat-box">
-                    <div class="chat-message user">
-                        <div class="avatar user">You</div>
-                        <div class="message-content">
-                            <span class="prompt-label">Prompt</span>
-                            <span class="copy-prompt">复制代码</span>
-                            我在当前目录下克隆了项目，请帮我安装 Node.js 和 Python 的所有依赖，并检查环境是否正常。
-                        </div>
-                    </div>
-                    <div class="chat-message ai">
-                        <div class="avatar ai">AI</div>
-                        <div class="message-content">
-                            <span class="prompt-label">Trae Action</span>
-                            没问题，我将依次运行 npm install 和 pip install，并验证版本。
-                        </div>
-                    </div>
-                </div>
 
-                <div class="code-window">
-                    <div class="code-header">
-                        <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                        <span class="lang-tag">TERMINAL</span>
+            <div class="grid-features">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     </div>
-                    <pre><code># 1. 安装 Node.js 依赖
-npm install
-
-# 2. 安装 Python 依赖 (建议使用 venv)
-pip install -r requirements.txt</code></pre>
+                    <h4>🎯 自动化策划</h4>
+                    <p>根据文章内容自动生成配图方案，智能识别章节结构和核心产品。</p>
                 </div>
-            </div>
-
-            <div>
-                <h3>02. 配置密钥</h3>
-                
-                <div class="ai-chat-box">
-                    <div class="chat-message user">
-                        <div class="avatar user">You</div>
-                        <div class="message-content">
-                            <span class="prompt-label">Prompt</span>
-                            <span class="copy-prompt">复制代码</span>
-                            请根据 `.env.example` 创建一个 `.env` 文件。我的 API Key 是 `sk-xxxx`，模型使用 `dall-e-3`。
-                        </div>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     </div>
-                    <div class="chat-message ai">
-                        <div class="avatar ai">AI</div>
-                        <div class="message-content">
-                            <span class="prompt-label">Trae Action</span>
-                            已为你创建 `.env` 文件并填入配置。请确认文件内容。
-                        </div>
-                    </div>
+                    <h4>🖼️ 批量生成 (Python)</h4>
+                    <p>调用 Python 脚本进行图像生成与后处理（裁剪、压缩），支持断点续传。</p>
                 </div>
-
-                <div class="code-window">
-                    <div class="code-header">
-                        <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                        <span class="lang-tag">.ENV</span>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     </div>
-                    <pre><code>OPENAI_API_KEY=your-openai-api-key
-OPENAI_IMAGE_MODEL=dall-e-3
-OPENAI_BASE_URL=https://api.openai.com/v1</code></pre>
+                    <h4>☁️ 智能上传</h4>
+                    <p>上传图片到 WordPress 媒体库，具备自动去重和元数据更新功能。</p>
                 </div>
-                
-                <div class="callout warning">
-                    <div class="callout-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-2.86 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
                     </div>
-                    <div class="callout-content">
-                        <strong>安全提示</strong>
-                        <p>永远不要将 <code>.env</code> 文件分享给他人，也不要提交到 Git 仓库！</p>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <h3>03. 配置 WordPress 站点</h3>
-                
-                <div class="ai-chat-box">
-                    <div class="chat-message user">
-                        <div class="avatar user">You</div>
-                        <div class="message-content">
-                            <span class="prompt-label">Prompt</span>
-                            <span class="copy-prompt">复制代码</span>
-                            我要配置一个新站点 `mysite.com`。请复制模板文件，并帮我生成配置 JSON。
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-window">
-                    <div class="code-header">
-                        <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                        <span class="lang-tag">BASH</span>
-                    </div>
-                    <pre><code>cp configs/template.env configs/mysite.com.env
-cp configs/template.json configs/mysite.com.json</code></pre>
-                </div>
-                
-                <div class="callout info">
-                    <div class="callout-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    </div>
-                    <div class="callout-content">
-                        <strong>如何获取 WordPress 应用密码</strong>
-                        <ol style="margin-left: 20px; margin-top: 8px;">
-                            <li>登录 WordPress 后台 → 用户 → 个人资料</li>
-                            <li>滚动到"应用密码"部分</li>
-                            <li>输入名称（如"文章配图工具"），点击"添加新应用密码"</li>
-                            <li>复制生成的密码（格式：<code>xxxx xxxx xxxx xxxx</code>）</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <h3>04. 运行自动化流程</h3>
-                <p>这是最关键的一步，你可以直接让 Trae 读取草稿并执行。</p>
-                
-                <div class="ai-chat-box">
-                    <div class="chat-message user">
-                        <div class="avatar user">You</div>
-                        <div class="message-content">
-                            <span class="prompt-label">Prompt</span>
-                            <span class="copy-prompt">复制代码</span>
-                            列出 `mysite.com` 的草稿文章，然后为 ID 为 123 的文章生成配图方案。
-                        </div>
-                    </div>
-                    <div class="chat-message ai">
-                        <div class="avatar ai">AI</div>
-                        <div class="message-content">
-                            <span class="prompt-label">Trae Action</span>
-                            正在连接 WordPress... 获取到文章 ID 123。正在分析内容并生成 `outline-123.md`...
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-window">
-                    <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div></div>
-                    <pre><code># 列出草稿
-npx tsx scripts/cli.ts drafts:list --site mysite.com
-
-# 执行完整流程 (生图 + 处理 + 上传)
-npx tsx scripts/cli.ts workflow:full 123 --site mysite.com</code></pre>
-                </div>
-            </div>
-
-            <div class="callout success">
-                <div class="callout-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                </div>
-                <div class="callout-content">
-                    <strong>部署完成！</strong>
-                    <p>你已经学会了如何通过与 Trae 对话来控制整个自动化流程。接下来你可以尝试批量处理。</p>
+                    <h4>📍 精准插入</h4>
+                    <p>根据章节标题将图片插入到文章的合适位置，智能避让特殊区块。</p>
                 </div>
             </div>
         </section>
@@ -559,7 +468,7 @@ npx tsx scripts/cli.ts workflow:full 123 --site mysite.com</code></pre>
         <section id="install">
             <h2>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
-                安装配置 (详细版)
+                环境安装 (Hybrid)
             </h2>
 
             <h3>系统要求</h3>
@@ -595,56 +504,148 @@ pip install -r requirements.txt</code></pre>
             </div>
         </section>
 
-        <section id="usage">
+        <section id="rules">
             <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.5-1.5 4.5 0 6s4.5 1.5 6 0l4-4"/><path d="M13.5 6.5c1.5-1.5 4.5-1.5 6 0s1.5 4.5 0 6l-4 4"/><path d="M19.5 7.5c1.5-1.5 1.5-4.5 0-6s-4.5-1.5-6 0l-4 4"/><path d="M10.5 17.5c-1.5 1.5-4.5 1.5-6 0s-1.5-4.5 0-6l4-4"/></svg>
-                高级用法
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
+                规则与 SKILL
             </h2>
 
-            <h3>1. 批量处理多篇文章</h3>
+            <div class="callout info">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>配置 AI 大脑</strong>
+                    <p>将以下规则文件放置在 <code>.trae/rules/</code> 目录下，确保 AI 遵循你的设计规范。</p>
+                </div>
+            </div>
+
+            <h3>必需的规则文件</h3>
+            <ul class="checklist">
+                <li>01-architecture.md - 核心流程与架构</li>
+                <li>02-placement-rules.md - 自动化插图规则</li>
+                <li>03-prompt-engineering.md - Prompt 生成第一原理</li>
+                <li>04-visual-style.md - 视觉风格规范</li>
+                <li>05-safety-operations.md - 安全操作边界</li>
+                <li>06-metadata-seo.md - 图片元数据与 SEO 规范</li>
+            </ul>
+
+            <h3>必需的 SKILL</h3>
+            <p>放置在 <code>.trae/skills/</code> 目录下：</p>
+            <ul class="checklist">
+                <li>article-audit - 审核文章插图是否符合规范</li>
+                <li>baoyu-article-illustrator - 分析文章并生成配图方案</li>
+                <li>baoyu-image-gen - AI 图片生成</li>
+            </ul>
+        </section>
+
+        <section id="mcp">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+                MCP 工具
+            </h2>
+
+            <p>MCP (Model Context Protocol) 工具允许 AI 访问外部服务。请确保在 <code>mcp_config.json</code> 中配置以下服务。</p>
+
             <div class="ai-chat-box">
                 <div class="chat-message user">
                     <div class="avatar user">You</div>
                     <div class="message-content">
                         <span class="prompt-label">Prompt</span>
-                        我要一次性处理 ID 为 123, 456, 789 的三篇文章。
+                        请检查 MCP 状态，并使用 `tavily_search` 搜索最新的 WordPress REST API 文档。
                     </div>
                 </div>
             </div>
-            <div class="code-window">
-                <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div></div>
-                <pre><code>npx tsx scripts/cli.ts workflow:full 123 456 789 --site your-site.com</code></pre>
-            </div>
 
-            <h3>2. 验证文章状态</h3>
-            <p>检查图片插入状态和 SEO 信息是否完整：</p>
-            <div class="code-window">
-                <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div></div>
-                <pre><code>npx tsx scripts/cli.ts posts:verify --site your-site.com</code></pre>
-            </div>
+            <h3>推荐安装的 MCP Server</h3>
+            <ul class="checklist">
+                <li><strong>mcp_tavily_tavily_search</strong> - 网络搜索</li>
+                <li><strong>mcp_tavily_tavily_extract</strong> - URL 内容提取</li>
+                <li><strong>mcp_GitHub_search_repositories</strong> - 搜索仓库</li>
+                <li><strong>mcp_filesystem_read_file</strong> - 读取本地文件</li>
+            </ul>
         </section>
 
-        <section id="features">
+        <section id="quickstart">
             <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9 17.14 14.14 22 15.09 15.09 22 12 18.91 9.91 22 6.86 17.14 9 22 2 12 9 8.26 2 12 2z"/></svg>
-                核心功能
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 23 2 17 7"/></svg>
+                快速开始 (Trae 交互模式)
             </h2>
+            <p>环境配置完毕后，你可以通过与 Trae 对话来控制整个自动化流程。</p>
+            
+            <div class="timeline">
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">01</span>
+                        <h3 class="step-title">配置密钥 (.env)</h3>
+                    </div>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                请根据 `.env.example` 创建 `.env`。API Key: `sk-xxxx`, Model: `dall-e-3`。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-window">
+                        <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><span class="lang-tag">.ENV</span></div>
+                        <pre><code>OPENAI_API_KEY=your-openai-api-key
+OPENAI_IMAGE_MODEL=dall-e-3
+OPENAI_BASE_URL=https://api.openai.com/v1</code></pre>
+                    </div>
+                </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
-                <div class="ai-chat-box" style="margin:0;">
-                    <div style="margin-bottom:15px; color:var(--primary);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-                    <h4 style="margin:0 0 10px 0; color:white;">🎯 自动化策划</h4>
-                    <p style="margin:0; font-size:0.9rem;">根据文章内容自动生成配图方案，智能识别章节结构和核心产品。</p>
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">02</span>
+                        <h3 class="step-title">配置 WordPress 站点</h3>
+                    </div>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                我要配置站点 `mysite.com`。请复制模板并生成配置文件。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-window">
+                        <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><span class="lang-tag">BASH</span></div>
+                        <pre><code>cp configs/template.env configs/mysite.com.env
+cp configs/template.json configs/mysite.com.json</code></pre>
+                    </div>
                 </div>
-                <div class="ai-chat-box" style="margin:0;">
-                    <div style="margin-bottom:15px; color:var(--secondary);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-                    <h4 style="margin:0 0 10px 0; color:white;">🖼️ 批量生成 (Python)</h4>
-                    <p style="margin:0; font-size:0.9rem;">调用 Python 脚本进行图像生成与后处理（裁剪、压缩），支持断点续传。</p>
+
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">03</span>
+                        <h3 class="step-title">运行自动化流程</h3>
+                    </div>
+                    <p>列出草稿文章并执行生成：</p>
+                    <div class="code-window">
+                        <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><span class="lang-tag">TERMINAL</span></div>
+                        <pre><code># 列出草稿
+npx tsx scripts/cli.ts drafts:list --site mysite.com
+
+# 为文章 123 执行生图
+npx tsx scripts/cli.ts workflow:full 123 --site mysite.com</code></pre>
+                    </div>
                 </div>
-                <div class="ai-chat-box" style="margin:0;">
-                    <div style="margin-bottom:15px; color:var(--success);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-                    <h4 style="margin:0 0 10px 0; color:white;">☁️ 智能上传</h4>
-                    <p style="margin:0; font-size:0.9rem;">上传图片到 WordPress 媒体库，具备自动去重和元数据更新功能。</p>
+            </div>
+
+            <div class="callout success">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>部署完成！</strong>
+                    <p>你已经成功运行了第一个自动化任务。现在可以尝试批量处理多篇文章。</p>
                 </div>
             </div>
         </section>
@@ -670,74 +671,47 @@ pip install -r requirements.txt</code></pre>
 ├── IMAGE/              # 图片存储目录（自动创建）
 ├── configs/             # 配置文件
 ├── scripts/             # TypeScript 脚本文件
-├── python_core/         # Python 处理脚本 (新增)
+├── python_core/         # Python 处理脚本
 ├── requirements.txt     # Python 依赖列表
 └── ...</code></pre>
             </div>
 
-            <h3>遇到路径问题怎么办？</h3>
-            <div class="ai-chat-box">
-                <div class="chat-message user">
-                    <div class="avatar user">You</div>
-                    <div class="message-content">
-                        <span class="prompt-label">Prompt</span>
-                        我的项目路径是 `D:\Projects\AutoGraph`，请检查当前配置并修复所有路径错误。
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="rules">
-            <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
-                规则与 SKILL
-            </h2>
-
-            <h3>什么是规则？</h3>
-            <p>规则是项目级别的约束和指导原则，存储在 <code>.trae/rules/</code> 目录下。</p>
+            <h3>不同操作系统的路径</h3>
             <ul class="checklist">
-                <li>01-architecture.md - 核心流程与架构</li>
-                <li>02-placement-rules.md - 自动化插图规则</li>
-                <li>03-prompt-engineering.md - Prompt 生成第一原理</li>
-                <li>04-visual-style.md - 视觉风格规范</li>
-                <li>05-safety-operations.md - 安全操作边界</li>
-                <li>06-metadata-seo.md - 图片元数据与 SEO 规范</li>
-            </ul>
-
-            <h3>什么是 SKILL？</h3>
-            <p>SKILL 是可复用的 AI 能力模块，存储在 <code>.trae/skills/</code> 目录下。</p>
-            <ul class="checklist">
-                <li>article-audit - 审核文章插图是否符合规范</li>
-                <li>baoyu-article-illustrator - 分析文章并生成配图方案</li>
-                <li>baoyu-image-gen - AI 图片生成</li>
+                <li><strong>Windows:</strong> <code>C:\Users\Username\Project\</code></li>
+                <li><strong>macOS:</strong> <code>/Users/Username/Project/</code></li>
+                <li><strong>Linux:</strong> <code>/home/username/Project/</code></li>
             </ul>
         </section>
 
-        <section id="mcp">
+        <section id="tips">
             <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
-                MCP 工具
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.707-.707M15 7l-3-3m0 12l3-3m-6 0l-3 3m3-12l-3 3"/></svg>
+                最佳实践
             </h2>
 
-            <p>MCP (Model Context Protocol) 工具允许 AI 访问外部服务，扩展项目能力。很多 MCP Server 需要 Python 环境运行。</p>
-
-            <div class="ai-chat-box">
-                <div class="chat-message user">
-                    <div class="avatar user">You</div>
-                    <div class="message-content">
-                        <span class="prompt-label">Prompt</span>
-                        请使用 `tavily_search` 搜索最新的 WordPress REST API 文档。
-                    </div>
-                </div>
-            </div>
-
-            <h3>可用的 MCP 工具</h3>
+            <h3>安全注意事项</h3>
             <ul class="checklist">
-                <li><strong>mcp_tavily_tavily_search</strong> - 网络搜索</li>
-                <li><strong>mcp_tavily_tavily_extract</strong> - URL 内容提取</li>
-                <li><strong>mcp_GitHub_search_repositories</strong> - 搜索仓库</li>
-                <li><strong>mcp_filesystem_read_file</strong> - 读取本地文件</li>
+                <li>保护 API 密钥，不要将 <code>.env</code> 文件分享给他人</li>
+                <li>定期更换 API 密钥</li>
+                <li>仅授予 WordPress 应用密码必要的权限</li>
+                <li>执行批量操作前先备份 WordPress</li>
             </ul>
+
+            <h3>质量控制</h3>
+            <ul class="checklist">
+                <li>检查生成的图片是否符合 B2B 风格</li>
+                <li>确保没有文字、水印</li>
+                <li>验证产品细节清晰</li>
+                <li>Alt 文本不超过 125 字符</li>
+                <li>Title 包含关键词</li>
+            </ul>
+
+            <div class="progress-wrapper">
+                <div class="progress-label">学习进度：100% 准备就绪</div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
+                <p>你已经掌握了所有核心概念，现在开始你的自动化之旅吧！</p>
+            </div>
         </section>
 
         <section id="faq">
@@ -767,7 +741,7 @@ npm install</code></pre>
                     <path d="M22 7L22 17"/>
                     <path d="M12 12L12 22"/>
                 </svg>
-                文章生图自动化项目 - 学员版 (v2.1 AI-Native Edition)
+                文章生图自动化项目 - 学员版 (v2.2 AI-Native Edition)
             </p>
             <p>如有问题，请联系导师获取帮助</p>
             <p>祝学习愉快！</p>
@@ -788,7 +762,7 @@ npm install</code></pre>
         });
     });
 
-    // 平滑滚动
+    // 平滑滚动与高亮当前导航逻辑
     document.querySelectorAll('.sidebar a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -814,6 +788,7 @@ npm install</code></pre>
         });
     }
 
+    // 滚动监听
     window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(section => {
