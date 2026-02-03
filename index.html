@@ -3,34 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章生图自动化项目 - Trae 交互式教程</title>
+    <title>网站架构设计完整教程 - Trae 交互式指南</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* --- 核心配色 (Dark Theme - 极客深空) --- */
-            --bg-body: #0B1120;       /* 更深邃的蓝黑 */
+            --bg-body: #0B1120;
             --bg-sidebar: rgba(11, 17, 32, 0.95);
-            --bg-card: #151e32;       /* 卡片背景 */
-            --bg-code: #0f1623;       /* 代码块背景 */
-            --bg-chat-user: rgba(59, 130, 246, 0.15); /* 用户气泡 */
-            --bg-chat-ai: rgba(30, 41, 59, 0.6);      /* AI 气泡 */
+            --bg-card: #151e32;
+            --bg-code: #0f1623;
+            --bg-chat-user: rgba(59, 130, 246, 0.15);
+            --bg-chat-ai: rgba(30, 41, 59, 0.6);
             
-            /* --- 强调色 (Trae 风格) --- */
-            --primary: #3b82f6;       /* TypeScript Blue */
-            --secondary: #eab308;     /* Python Yellow */
-            --accent: #8b5cf6;        /* AI Purple */
-            --trae-gradient: linear-gradient(135deg, #6366f1, #a855f7); /* Trae 品牌色感 */
+            --primary: #3b82f6;
+            --secondary: #eab308;
+            --accent: #8b5cf6;
+            --trae-gradient: linear-gradient(135deg, #6366f1, #a855f7);
             
-            --success: #10b981;       /* Emerald */
-            --warning: #f59e0b;       /* Amber */
-            --danger: #ef4444;        /* Red */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
             
-            /* --- 文字 --- */
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --text-code: #e2e8f0;
             
-            /* --- 边框与尺寸 --- */
             --border: #1e293b;
             --sidebar-width: 280px;
             --radius-md: 8px;
@@ -44,7 +40,6 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             line-height: 1.7;
-            /* 背景光晕 */
             background-image: 
                 radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.08), transparent 40%),
                 radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.08), transparent 40%);
@@ -52,14 +47,12 @@
             scroll-behavior: smooth;
         }
 
-        /* --- 布局结构 --- */
         .app-layout {
             display: grid;
             grid-template-columns: var(--sidebar-width) 1fr;
             min-height: 100vh;
         }
 
-        /* --- 侧边栏 --- */
         aside.sidebar {
             position: fixed;
             width: var(--sidebar-width);
@@ -119,7 +112,7 @@
 
         .nav-item:hover {
             color: var(--text-main);
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255,255,255,0.03);
         }
 
         .nav-item.active {
@@ -131,7 +124,6 @@
         
         .nav-item.active svg { opacity: 1; color: var(--accent); }
 
-        /* --- 主内容区 --- */
         main.content {
             grid-column: 2;
             padding: 60px 80px;
@@ -140,7 +132,6 @@
             width: 100%;
         }
 
-        /* --- 头部区域 --- */
         header.page-header {
             margin-bottom: 60px;
             padding-bottom: 40px;
@@ -153,8 +144,8 @@
             border: 1px solid transparent;
         }
         .badge.trae { color: white; background: var(--trae-gradient); border: none; }
-        .badge.node { color: #60a5fa; background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); }
-        .badge.python { color: #facc15; background: rgba(234, 179, 8, 0.1); border-color: rgba(234, 179, 8, 0.2); }
+        .badge.skill { color: #60a5fa; background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); }
+        .badge.rule { color: #facc15; background: rgba(234, 179, 8, 0.1); border-color: rgba(234, 179, 8, 0.2); }
 
         header h1 {
             font-size: 2.8rem;
@@ -170,9 +161,8 @@
             max-width: 800px;
         }
 
-        /* --- AI 对话框组件 --- */
         .ai-chat-box {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255,255,255,0.02);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: 24px;
@@ -240,7 +230,6 @@
         }
         .copy-prompt:hover { opacity: 1; text-decoration: underline; }
 
-        /* --- 现代代码块 --- */
         .code-window {
             background: var(--bg-code);
             border: 1px solid var(--border);
@@ -272,14 +261,13 @@
         pre { padding: 20px; overflow-x: auto; margin: 0; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--text-code); line-height: 1.6; }
         
-        /* 通用样式 */
         h2 { font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 12px; }
         h2 svg { color: var(--accent); }
         h3 { font-size: 1.3rem; margin-top: 40px; margin-bottom: 20px; color: var(--text-main); font-weight: 600; }
+        h4 { font-size: 1.1rem; margin-top: 30px; margin-bottom: 15px; color: var(--text-main); font-weight: 600; }
         p { color: var(--text-muted); margin-bottom: 16px; font-size: 1.05rem; }
         a { color: var(--primary); text-decoration: none; border-bottom: 1px dashed rgba(59, 130, 246, 0.5); }
 
-        /* 提示框 */
         .callout {
             padding: 20px; border-radius: var(--radius-md); margin: 32px 0; border-left: 4px solid;
             background: rgba(255,255,255,0.02); display: flex; gap: 16px;
@@ -292,7 +280,6 @@
         .callout.success { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
         .callout.success .callout-icon { color: var(--success); }
         
-        /* 清单列表 */
         ul.checklist { list-style: none; padding: 0; }
         ul.checklist li {
             position: relative; padding: 12px 0 12px 34px; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--text-muted);
@@ -303,7 +290,6 @@
             display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;
         }
 
-        /* 步骤条 */
         .timeline { position: relative; margin: 40px 0; padding-left: 20px; border-left: 2px solid var(--border); }
         .step-item { position: relative; padding-left: 40px; margin-bottom: 60px; }
         .step-marker {
@@ -316,7 +302,6 @@
         .step-number { font-family: 'JetBrains Mono'; color: var(--primary); font-weight: 700; opacity: 0.8; }
         .step-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin: 0; }
 
-        /* 功能网格 */
         .grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px; }
         .feature-box {
             background: var(--bg-card); padding: 30px; border-radius: var(--radius-lg);
@@ -328,7 +313,6 @@
             display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--text-main);
         }
 
-        /* 进度条 */
         .progress-wrapper { margin-bottom: 24px; }
         .progress-bar {
             height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 8px 0;
@@ -339,13 +323,11 @@
         }
         .progress-label { font-size: 0.85rem; color: var(--text-code); font-weight: 500; }
 
-        /* 页脚 */
         footer {
             margin-top: 100px; padding: 40px 0; border-top: 1px solid var(--border);
             text-align: center; color: var(--text-muted); font-size: 0.9rem;
         }
 
-        /* 响应式 */
         @media (max-width: 1024px) {
             .app-layout { grid-template-columns: 1fr; }
             aside.sidebar { display: none; }
@@ -360,55 +342,67 @@
     <aside class="sidebar">
         <div class="logo">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <span>AutoGraph <small style="font-weight:400; opacity:0.6; font-size:0.7em">for Trae</small></span>
+            <span>Website Architect <small style="font-weight:400; opacity:0.6; font-size:0.7em">for Trae</small></span>
         </div>
 
         <nav>
             <div class="nav-group">
-                <h3>项目概览</h3>
-                <a href="#features" class="nav-item active">
+                <h3>快速开始</h3>
+                <a href="#overview" class="nav-item active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9 17.14 14.14 22 15.09 15.09 22 12 18.91 9.91 22 6.86 17.14 9 22 2 12 9 8.26 2 12 2z"/></svg>
-                    核心功能
+                    教程概览
                 </a>
             </div>
 
             <div class="nav-group">
-                <h3>配置环境</h3>
-                <a href="#install" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
-                    环境安装 (Hybrid)
+                <h3>基础配置</h3>
+                <a href="#skill" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
+                    创建 SKILL
                 </a>
                 <a href="#rules" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
-                    规则与 SKILL
+                    创建规则
                 </a>
-                <a href="#mcp" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
-                    MCP 工具
+                <a href="#wp" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
+                    绑定 WordPress
                 </a>
             </div>
 
             <div class="nav-group">
-                <h3>运行项目</h3>
-                <a href="#quickstart" class="nav-item">
+                <h3>设计系统</h3>
+                <a href="#colors" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94"/></svg>
+                    颜色系统
+                </a>
+                <a href="#fonts" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="9" y2="4"/><line x1="15" y1="20" x2="15" y2="4"/><line x1="9" y1="14" x2="15" y2="14"/><line x1="9" y1="18" x2="15" y2="18"/><line x1="9" y1="10" x2="15" y2="10"/></svg>
+                    字体系统
+                </a>
+                <a href="#global" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    全局组件
+                </a>
+            </div>
+
+            <div class="nav-group">
+                <h3>实战流程</h3>
+                <a href="#workflow" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 23 2 17 7"/></svg>
-                    快速开始 (Chat)
+                    完整工作流
+                </a>
+                <a href="#chat" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    对话示例
                 </a>
             </div>
 
             <div class="nav-group">
-                <h3>高级配置</h3>
-                <a href="#path" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                    路径配置
-                </a>
-                <a href="#tips" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.707-.707M15 7l-3-3m0 12l3-3m-6 0l-3 3m3-12l-3 3"/></svg>
-                    最佳实践
-                </a>
+                <h3>常见问题</h3>
                 <a href="#faq" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    常见问题
+                    FAQ
                 </a>
             </div>
         </nav>
@@ -418,96 +412,67 @@
         <header class="page-header">
             <div class="badge-group">
                 <span class="badge trae">AI NATIVE</span>
-                <span class="badge node">NODE.JS</span>
-                <span class="badge python">PYTHON</span>
+                <span class="badge skill">SKILL SYSTEM</span>
+                <span class="badge rule">RULES</span>
             </div>
             <h1>
-                文章生图自动化项目
+                网站架构设计完整教程
             </h1>
-            <p>基于 Trae / Cursor 的全自动化 WordPress 配图解决方案。你只需输入指令，代码自动运行。</p>
+            <p>从零开始，教你如何使用 Trae 创建自定义 SKILL、配置规则、绑定 WordPress，并建立完整的设计系统。小白也能轻松上手！</p>
         </header>
 
-        <section id="features">
+        <section id="overview">
             <h2>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9 17.14 14.14 22 15.09 15.09 22 12 18.91 9.91 22 6.86 17.14 9 22 2 12 9 8.26 2 12 2z"/></svg>
-                核心功能
+                教程概览
             </h2>
 
             <div class="grid-features">
                 <div class="feature-box">
                     <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
                     </div>
-                    <h4>🎯 自动化策划</h4>
-                    <p>根据文章内容自动生成配图方案，智能识别章节结构和核心产品。</p>
+                    <h4>🧠 创建 SKILL</h4>
+                    <p>定义 AI 的专业能力，让 Trae 按照你的工作流程执行任务。</p>
                 </div>
                 <div class="feature-box">
                     <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9.33 8.67l-1.66-1.25"/><path d="M14.67 8.67l1.66-1.25"/></svg>
                     </div>
-                    <h4>🖼️ 批量生成 (Python)</h4>
-                    <p>调用 Python 脚本进行图像生成与后处理（裁剪、压缩），支持断点续传。</p>
+                    <h4>📋 创建规则</h4>
+                    <p>建立项目规范，确保 AI 生成的代码符合你的设计标准。</p>
                 </div>
                 <div class="feature-box">
                     <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
                     </div>
-                    <h4>☁️ 智能上传</h4>
-                    <p>上传图片到 WordPress 媒体库，具备自动去重和元数据更新功能。</p>
+                    <h4>🔗 绑定 WordPress</h4>
+                    <p>配置 WP 环境变量，让 AI 能够直接操作你的网站。</p>
                 </div>
                 <div class="feature-box">
                     <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94"/></svg>
                     </div>
-                    <h4>📍 精准插入</h4>
-                    <p>根据章节标题将图片插入到文章的合适位置，智能避让特殊区块。</p>
+                    <h4>🎨 设计系统</h4>
+                    <p>定义颜色、字体、全局组件，建立统一的视觉语言。</p>
+                </div>
+            </div>
+
+            <div class="callout success">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>学习目标</strong>
+                    <p>完成本教程后，你将能够：创建自定义 SKILL、配置项目规则、绑定 WordPress、建立设计系统，并通过对话让 AI 自动生成符合规范的网站代码。</p>
                 </div>
             </div>
         </section>
 
-        <section id="install">
-            <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
-                环境安装 (Hybrid)
-            </h2>
-
-            <h3>系统要求</h3>
-            <ul class="checklist">
-                <li>Node.js >= 18.0.0 (TS 运行时)</li>
-                <li>Python >= 3.10 (AI 与图像处理)</li>
-                <li>npm / pnpm / bun（任选其一）</li>
-                <li>稳定的网络连接</li>
-            </ul>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
-                <div class="ai-chat-box" style="margin:0; padding:20px;">
-                    <h4 style="margin-top:0; color:var(--primary);">Node.js Check</h4>
-                    <pre style="background:transparent; padding:0; margin:10px 0;"><code>node --version</code></pre>
-                </div>
-                <div class="ai-chat-box" style="margin:0; padding:20px;">
-                    <h4 style="margin-top:0; color:var(--secondary);">Python Check</h4>
-                    <pre style="background:transparent; padding:0; margin:10px 0;"><code>python --version</code></pre>
-                </div>
-            </div>
-
-            <h3>安装项目依赖</h3>
-            <div class="code-window">
-                <div class="code-header">
-                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                    <span class="lang-tag">TERMINAL</span>
-                </div>
-                <pre><code># 1. Node 依赖
-npm install
-
-# 2. Python 依赖 (OpenCV, Pillow, Requests)
-pip install -r requirements.txt</code></pre>
-            </div>
-        </section>
-
-        <section id="rules">
+        <section id="skill">
             <h2>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
-                规则与 SKILL
+                第一步：创建 SKILL
             </h2>
 
             <div class="callout info">
@@ -515,126 +480,499 @@ pip install -r requirements.txt</code></pre>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 </div>
                 <div class="callout-content">
-                    <strong>配置 AI 大脑</strong>
-                    <p>将以下规则文件放置在 <code>.trae/rules/</code> 目录下，确保 AI 遵循你的设计规范。</p>
+                    <strong>什么是 SKILL？</strong>
+                    <p>SKILL 是 Trae 的"插件系统"，你可以定义 AI 的专业能力、工作流程和输出格式。创建 SKILL 后，AI 会自动按照你定义的规则执行任务。</p>
                 </div>
             </div>
 
-            <h3>必需的规则文件</h3>
-            <ul class="checklist">
-                <li>01-architecture.md - 核心流程与架构</li>
-                <li>02-placement-rules.md - 自动化插图规则</li>
-                <li>03-prompt-engineering.md - Prompt 生成第一原理</li>
-                <li>04-visual-style.md - 视觉风格规范</li>
-                <li>05-safety-operations.md - 安全操作边界</li>
-                <li>06-metadata-seo.md - 图片元数据与 SEO 规范</li>
-            </ul>
+            <h3>SKILL 文件结构</h3>
+            <p>每个 SKILL 都是一个独立的文件夹，包含一个 <code>SKILL.md</code> 文件。文件使用 Markdown 格式，包含以下部分：</p>
 
-            <h3>必需的 SKILL</h3>
-            <p>放置在 <code>.trae/skills/</code> 目录下：</p>
-            <ul class="checklist">
-                <li>article-audit - 审核文章插图是否符合规范</li>
-                <li>baoyu-article-illustrator - 分析文章并生成配图方案</li>
-                <li>baoyu-image-gen - AI 图片生成</li>
-            </ul>
-        </section>
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">SKILL.md</span>
+                </div>
+                <pre><code>---
+name: my-custom-skill
+description: A brief description of what this skill does
+version: 1.0.0
+author: Your Name
+---
 
-        <section id="mcp">
-            <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
-                MCP 工具
-            </h2>
+# Skill Name
 
-            <p>MCP (Model Context Protocol) 工具允许 AI 访问外部服务。请确保在 <code>mcp_config.json</code> 中配置以下服务。</p>
+## Description
+Explain what this skill does in detail.
+
+## When to Use
+Describe the scenarios where this skill should be invoked.
+
+## Workflow
+1. Step 1
+2. Step 2
+3. Step 3
+
+## Output Format
+Describe the expected output format.
+
+## Examples
+Provide example prompts and responses.</code></pre>
+            </div>
+
+            <h3>创建你的第一个 SKILL</h3>
+            <p>让我们创建一个简单的 SKILL，用于生成符合 B2B 风格的产品描述：</p>
 
             <div class="ai-chat-box">
                 <div class="chat-message user">
                     <div class="avatar user">You</div>
                     <div class="message-content">
                         <span class="prompt-label">Prompt</span>
-                        请检查 MCP 状态，并使用 `tavily_search` 搜索最新的 WordPress REST API 文档。
+                        <span class="copy-prompt">复制代码</span>
+                        请帮我创建一个 SKILL，名称为 "b2b-product-writer"，功能是生成 B2B 产品描述。要求：1. 使用专业商务语言 2. 包含产品规格 3. 突出核心卖点 4. 字数控制在 200-300 字。
                     </div>
                 </div>
             </div>
 
-            <h3>推荐安装的 MCP Server</h3>
-            <ul class="checklist">
-                <li><strong>mcp_tavily_tavily_search</strong> - 网络搜索</li>
-                <li><strong>mcp_tavily_tavily_extract</strong> - URL 内容提取</li>
-                <li><strong>mcp_GitHub_search_repositories</strong> - 搜索仓库</li>
-                <li><strong>mcp_filesystem_read_file</strong> - 读取本地文件</li>
-            </ul>
+            <div class="callout warning">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-2.86 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <div class="callout-content">
+                    <strong>重要提示</strong>
+                    <p>SKILL 文件必须放在 <code>.trae/skills/</code> 目录下，Trae 才能识别。建议每个 SKILL 单独一个文件夹，便于管理。</p>
+                </div>
+            </div>
+
+            <h3>SKILL 目录结构示例</h3>
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">DIRECTORY</span>
+                </div>
+                <pre><code>.trae/
+└── skills/
+    ├── b2b-product-writer/
+    │   └── SKILL.md
+    ├── seo-content-writer/
+    │   └── SKILL.md
+    └── ui-ux-pro-max/
+        └── SKILL.md</code></pre>
+            </div>
         </section>
 
-        <section id="quickstart">
+        <section id="rules">
             <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 23 2 17 7"/></svg>
-                快速开始 (Trae 交互模式)
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 13 10 17 8 17"/></svg>
+                第二步：创建规则
             </h2>
-            <p>环境配置完毕后，你可以通过与 Trae 对话来控制整个自动化流程。</p>
-            
+
+            <div class="callout info">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>什么是规则？</strong>
+                    <p>规则文件定义了项目的编码标准、设计规范、SEO 要求等。AI 在生成代码时会自动读取这些规则，确保输出符合你的项目标准。</p>
+                </div>
+            </div>
+
+            <h3>规则文件命名规范</h3>
+            <p>规则文件使用数字前缀命名，便于排序和识别：</p>
+            <ul class="checklist">
+                <li><strong>01-</strong> 全局规则（语言、编码规范）</li>
+                <li><strong>02-</strong> 设计系统（颜色、字体、间距）</li>
+                <li><strong>03-</strong> 布局规范（网格、响应式）</li>
+                <li><strong>04-</strong> 组件规范（按钮、卡片、表单）</li>
+                <li><strong>05-</strong> SEO 规范（元数据、结构化数据）</li>
+                <li><strong>06-</strong> 业务规则（品牌信息、CTA 策略）</li>
+            </ul>
+
+            <h3>创建颜色系统规则</h3>
+            <p>让我们创建一个颜色系统规则文件：</p>
+
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        请帮我创建一个颜色系统规则文件，命名为 "03-color-system.md"。要求：1. 定义 CSS 变量 2. 包含主色、辅助色、背景色、文字色 3. 提供使用示例 4. 包含深色模式支持。
+                    </div>
+                </div>
+            </div>
+
+            <h3>规则文件示例</h3>
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">03-color-system.md</span>
+                </div>
+                <pre><code># Color System
+
+## CSS Variables
+```css
+:root {
+    --primary: #3b82f6;
+    --secondary: #6366f1;
+    --accent: #8b5cf6;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    
+    --bg-body: #ffffff;
+    --bg-card: #f9fafb;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+}
+
+[data-theme="dark"] {
+    --bg-body: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #334155;
+}
+```
+
+## Usage Guidelines
+- Use `--primary` for main CTAs and important actions
+- Use `--secondary` for secondary actions
+- Use `--accent` for highlights and special elements
+- Always use CSS variables, never hardcode colors</code></pre>
+            </div>
+
+            <div class="callout success">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>规则文件位置</strong>
+                    <p>所有规则文件必须放在 <code>.trae/rules/</code> 目录下。Trae 会自动读取 these 规则，并在生成代码时应用。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="wp">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
+                第三步：绑定 WordPress
+            </h2>
+
+            <div class="callout info">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>为什么要绑定 WordPress？</strong>
+                    <p>绑定 WordPress 后，AI 可以直接读取你的网站数据、上传图片、创建页面，实现真正的自动化开发流程。</p>
+                </div>
+            </div>
+
+            <h3>创建环境变量文件</h3>
+            <p>在项目根目录创建 <code>.env</code> 文件，存储 WordPress 连接信息：</p>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">.env</span>
+                </div>
+                <pre><code># WordPress Configuration
+WP_URL=https://your-site.com
+WP_USERNAME=your-username
+WP_PASSWORD=your-application-password
+WP_API_KEY=your-rest-api-key
+
+# Optional: Custom Post Type
+WP_POST_TYPE=page
+
+# Optional: Custom Taxonomy
+WP_TAXONOMY=category</code></pre>
+            </div>
+
+            <h3>获取 WordPress 凭证</h3>
             <div class="timeline">
                 <div class="step-item">
                     <div class="step-marker"></div>
                     <div class="step-header">
                         <span class="step-number">01</span>
-                        <h3 class="step-title">配置密钥 (.env)</h3>
+                        <h3 class="step-title">登录 WordPress 后台</h3>
                     </div>
-                    <div class="ai-chat-box">
-                        <div class="chat-message user">
-                            <div class="avatar user">You</div>
-                            <div class="message-content">
-                                <span class="prompt-label">Prompt</span>
-                                <span class="copy-prompt">复制代码</span>
-                                请根据 `.env.example` 创建 `.env`。API Key: `sk-xxxx`, Model: `dall-e-3`。
-                            </div>
-                        </div>
-                    </div>
-                    <div class="code-window">
-                        <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><span class="lang-tag">.ENV</span></div>
-                        <pre><code>OPENAI_API_KEY=your-openai-api-key
-OPENAI_IMAGE_MODEL=dall-e-3
-OPENAI_BASE_URL=https://api.openai.com/v1</code></pre>
-                    </div>
+                    <p>访问 <code>https://your-site.com/wp-admin</code> 并登录</p>
                 </div>
 
                 <div class="step-item">
                     <div class="step-marker"></div>
                     <div class="step-header">
                         <span class="step-number">02</span>
-                        <h3 class="step-title">配置 WordPress 站点</h3>
+                        <h3 class="step-title">生成应用密码</h3>
                     </div>
-                    <div class="ai-chat-box">
-                        <div class="chat-message user">
-                            <div class="avatar user">You</div>
-                            <div class="message-content">
-                                <span class="prompt-label">Prompt</span>
-                                <span class="copy-prompt">复制代码</span>
-                                我要配置站点 `mysite.com`。请复制模板并生成配置文件。
-                            </div>
-                        </div>
-                    </div>
-                    <div class="code-window">
-                        <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><span class="lang-tag">BASH</span></div>
-                        <pre><code>cp configs/template.env configs/mysite.com.env
-cp configs/template.json configs/mysite.com.json</code></pre>
-                    </div>
+                    <p>进入 <strong>用户 → 个人资料</strong>，滚动到"应用密码"部分，点击"创建新应用密码"</p>
                 </div>
 
                 <div class="step-item">
                     <div class="step-marker"></div>
                     <div class="step-header">
                         <span class="step-number">03</span>
-                        <h3 class="step-title">运行自动化流程</h3>
+                        <h3 class="step-title">复制密码到 .env</h3>
                     </div>
-                    <p>列出草稿文章并执行生成：</p>
-                    <div class="code-window">
-                        <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><span class="lang-tag">TERMINAL</span></div>
-                        <pre><code># 列出草稿
-npx tsx scripts/cli.ts drafts:list --site mysite.com
+                    <p>将生成的密码复制到 <code>.env</code> 文件的 <code>WP_PASSWORD</code> 字段</p>
+                </div>
+            </div>
 
-# 为文章 123 执行生图
-npx tsx scripts/cli.ts workflow:full 123 --site mysite.com</code></pre>
+            <div class="callout warning">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-2.86 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <div class="callout-content">
+                    <strong>安全提示</strong>
+                    <p><strong>不要</strong>使用你的 WordPress 登录密码！必须使用应用密码。应用密码可以随时撤销，更加安全。同时，<code>.env</code> 文件应该添加到 <code>.gitignore</code>，避免泄露。</p>
+                </div>
+            </div>
+
+            <h3>测试 WordPress 连接</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        请测试一下我的 WordPress 连接是否正常。使用 .env 文件中的配置，尝试获取最新的 5 篇文章列表。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="colors">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94"/></svg>
+                第四步：设定颜色系统
+            </h2>
+
+            <div class="callout info">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>为什么需要颜色系统？</strong>
+                    <p>统一的颜色系统确保品牌一致性，提高开发效率，便于主题切换（如深色模式）。</p>
+                </div>
+            </div>
+
+            <h3>定义颜色变量</h3>
+            <p>在规则文件中定义完整的颜色系统：</p>
+
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">CSS VARIABLES</span>
+                </div>
+                <pre><code>:root {
+    /* Brand Colors */
+    --brand-primary: #2563eb;
+    --brand-secondary: #4f46e5;
+    --brand-accent: #7c3aed;
+    
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+    
+    /* Neutral Colors */
+    --color-white: #ffffff;
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    
+    /* Text Colors */
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+    --text-inverse: #ffffff;
+    
+    /* Border Colors */
+    --border-light: #e5e7eb;
+    --border-medium: #d1d5db;
+    --border-dark: #9ca3af;
+}</code></pre>
+            </div>
+
+            <h3>深色模式支持</h3>
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">DARK MODE</span>
+                </div>
+                <pre><code>[data-theme="dark"] {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    
+    --border-light: #334155;
+    --border-medium: #475569;
+    --border-dark: #64748b;
+}</code></pre>
+            </div>
+
+            <h3>让 AI 使用你的颜色系统</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        请帮我创建一个产品卡片组件。要求：1. 使用我定义的颜色变量（--bg-primary, --text-primary, --border-light）2. 卡片有 hover 效果 3. 包含产品图片、标题、价格、购买按钮。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fonts">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="9" y2="4"/><line x1="15" y1="20" x2="15" y2="4"/><line x1="9" y1="14" x2="15" y2="14"/><line x1="9" y1="18" x2="15" y2="18"/><line x1="9" y1="10" x2="15" y2="10"/></svg>
+                第五步：设定字体系统
+            </h2>
+
+            <div class="callout info">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>字体系统的重要性</strong>
+                    <p>统一的字体系统提升可读性，建立品牌识别，确保跨平台一致性。</p>
+                </div>
+            </div>
+
+            <h3>定义字体变量</h3>
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">FONT VARIABLES</span>
+                </div>
+                <pre><code>:root {
+    /* Font Families */
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-heading: 'Inter', -apple-system, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    
+    /* Font Sizes */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    
+    /* Font Weights */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+    
+    /* Line Heights */
+    --leading-tight: 1.25;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.75;
+    
+    /* Letter Spacing */
+    --tracking-tight: -0.025em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.025em;
+}</code></pre>
+            </div>
+
+            <h3>字体使用规范</h3>
+            <ul class="checklist">
+                <li><strong>Display Font:</strong> 用于大标题、Hero 区域</li>
+                <li><strong>Heading Font:</strong> 用于 H1-H6 标题</li>
+                <li><strong>Body Font:</strong> 用于正文、段落</li>
+                <li><strong>Mono Font:</strong> 用于代码、数据、技术内容</li>
+            </ul>
+
+            <h3>导入 Google Fonts</h3>
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">HTML</span>
+                </div>
+                <pre><code>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"&gt;</code></pre>
+            </div>
+        </section>
+
+        <section id="global">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                第六步：全局组件
+            </h2>
+
+            <div class="callout info">
+                <div class="callout-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="callout-content">
+                    <strong>全局组件的作用</strong>
+                    <p>全局组件（Header、Footer）在所有页面共享，确保导航一致性，减少重复代码，便于统一维护。</p>
+                </div>
+            </div>
+
+            <h3>全局组件目录结构</h3>
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <span class="lang-tag">DIRECTORY</span>
+                </div>
+                <pre><code>website/
+├── global/
+│   ├── header.html
+│   ├── footer.html
+│   └── styles.css
+└── pages/
+    ├── home/
+    ├── about/
+    └── contact/</code></pre>
+            </div>
+
+            <h3>创建全局 Header</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        请帮我创建一个全局 Header 组件。要求：1. 包含 Logo、导航菜单、CTA 按钮 2. 响应式设计（移动端汉堡菜单）3. 使用我定义的颜色和字体变量 4. 滚动时添加阴影效果。
+                    </div>
+                </div>
+            </div>
+
+            <h3>创建全局 Footer</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        请帮我创建一个全局 Footer 组件。要求：1. 包含公司信息、快速链接、社交媒体图标 2. 4 列布局 3. 使用我定义的颜色和字体变量 4. 包含版权信息。
                     </div>
                 </div>
             </div>
@@ -644,73 +982,246 @@ npx tsx scripts/cli.ts workflow:full 123 --site mysite.com</code></pre>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-20 0v-1a10 10 0 1 0 20 0z"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 </div>
                 <div class="callout-content">
-                    <strong>部署完成！</strong>
-                    <p>你已经成功运行了第一个自动化任务。现在可以尝试批量处理多篇文章。</p>
+                    <strong>全局组件规范</strong>
+                    <p>全局组件应该放在 <code>website/global/</code> 目录下，所有页面通过 include 或引用的方式使用。确保只修改颜色变量，不改变结构和 ID。</p>
                 </div>
             </div>
         </section>
 
-        <section id="path">
+        <section id="workflow">
             <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                路径配置
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 23 2 17 7"/></svg>
+                实战完整工作流
             </h2>
 
-            <div class="callout warning">
-                <div class="callout-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-2.86 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-                <div class="callout-content">
-                    <strong>重要提示</strong>
-                    <p>项目使用相对路径，确保在不同操作系统上都能正常工作。</p>
+            <p>本流程基于真实的 B2B 网站开发案例，展示了从原始业务资料到生成高转化全站代码的完整闭环。学员可直接参考此流程进行项目开发：</p>
+
+            <div class="timeline">
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">01</span>
+                        <h3 class="step-title">业务资料深度分析</h3>
+                    </div>
+                    <p>将客户提供的原始业务手册交给 AI，提取公司核心信息、产品分类、目标受众及 SEO 关键词，为后续设计奠定基础。</p>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                我有一份业务文档《官方核心资料手册.md》。请帮我分析并提取：1. 公司核心信息 2. 产品分类 3. 目标受众 4. SEO 关键词。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">02</span>
+                        <h3 class="step-title">可视化架构与树状系统</h3>
+                    </div>
+                    <p>设计符合 B2B 采购逻辑的页面层级，并通过“树状系统”建立清晰的网站框架文件（WEBSITE_ARCHITECTURE.md）。</p>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                请先用树状系统给我列出网站框架。包含页面层级、SEO 关键词分配，并确保符合用户意图（信息型、商业型、交易型）。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">03</span>
+                        <h3 class="step-title">视觉风格研究与设计系统</h3>
+                    </div>
+                    <p>调研行业顶尖风格（如“大厂”或“奢侈品”风），确定配色方案与字体，并同步更新到项目规则（.trae/rules）中。</p>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                根据我们的产品，使用调研工具帮我查找符合我们网站的配色和字体，我们必须要“大厂”风格。确定后更新到项目规则中。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">04</span>
+                        <h3 class="step-title">全局组件与物理目录生成</h3>
+                    </div>
+                    <p>创建响应式的全局 Header/Footer，并利用文件操作工具一键生成全站所有的页面文件夹。 </p>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                请帮我创建全局 Header 和 Footer，包含 Schema 标记，并帮我生成整个网站的页面文件夹。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">05</span>
+                        <h3 class="step-title">SEO 关键词调研与策略制定</h3>
+                    </div>
+                    <p>在编写内容前，先使用 SEO 技能进行深度关键词调研，分析用户搜索意图，并生成一份全站关键词策略文档（KWS.md）。</p>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                深入调研我们行业的关键词，分析用户意图，帮我生成一份 KWS.md 文档，整理好所有页面需要的关键词。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">06</span>
+                        <h3 class="step-title">AIDA 高转化内容创作</h3>
+                    </div>
+                    <p>基于 KWS.md 文档，为每个页面编写完整的 Markdown 内容，严格遵循 AIDA 模型，并根据不同页面的用户意图进行差异化创作。</p>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                根据 KWS.md 文档，为所有页面编写 AIDA 框架内容。要求使用专业 B2B 语境，并针对 SEO 和 GEO 进行内容增强。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-marker"></div>
+                    <div class="step-header">
+                        <span class="step-number">07</span>
+                        <h3 class="step-title">转换规则与 SEO/GEO 深度优化</h3>
+                    </div>
+                    <p>制定严格的转化规则（如一屏一询盘），并利用 SEO 技能进行最后的深度审计，确保内容能够被 AI 引擎高效抓取。</p>
+                    <div class="ai-chat-box">
+                        <div class="chat-message user">
+                            <div class="avatar user">You</div>
+                            <div class="message-content">
+                                <span class="prompt-label">Prompt</span>
+                                <span class="copy-prompt">复制代码</span>
+                                再次用 SEO 和 GEO 方向优化内容。每一个 Section 都必须有一个指向询盘的 Button，并把这个规则永久写入项目规则库。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="chat">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                对话流程全记录（对话示例）
+            </h2>
+
+            <p>以下是本次项目从 0 到 1 的核心对话流程，建议学员按照此节奏与 AI 沟通：</p>
+
+            <h3>1. 资料分析与需求对齐</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        请认真阅读我的业务手册，开始为我设计网页框架。
+                    </div>
                 </div>
             </div>
 
-            <h3>项目目录结构</h3>
-            <div class="code-window">
-                <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div></div>
-                <pre><code>项目根目录/
-├── IMAGE/              # 图片存储目录（自动创建）
-├── configs/             # 配置文件
-├── scripts/             # TypeScript 脚本文件
-├── python_core/         # Python 处理脚本
-├── requirements.txt     # Python 依赖列表
-└── ...</code></pre>
+            <h3>2. 提取核心商业要素</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        请帮我提取：1. 公司核心信息 2. 产品分类 3. 目标受众 4. SEO 关键词。
+                    </div>
+                </div>
             </div>
 
-            <h3>不同操作系统的路径</h3>
-            <ul class="checklist">
-                <li><strong>Windows:</strong> <code>C:\Users\Username\Project\</code></li>
-                <li><strong>macOS:</strong> <code>/Users/Username/Project/</code></li>
-                <li><strong>Linux:</strong> <code>/home/username/Project/</code></li>
-            </ul>
-        </section>
+            <h3>3. 生成架构与树状系统</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        先用树状系统给我列出网站框架，并帮制作一个文件专门放置这个树状系统。
+                    </div>
+                </div>
+            </div>
 
-        <section id="tips">
-            <h2>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.707-.707M15 7l-3-3m0 12l3-3m-6 0l-3 3m3-12l-3 3"/></svg>
-                最佳实践
-            </h2>
+            <h3>4. 针对性调整架构</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        移除原有的 Resources，加入一个“解决方案”页面针对我们的用户对象设计。再加入一个 Blog 页面。
+                    </div>
+                </div>
+            </div>
 
-            <h3>安全注意事项</h3>
-            <ul class="checklist">
-                <li>保护 API 密钥，不要将 <code>.env</code> 文件分享给他人</li>
-                <li>定期更换 API 密钥</li>
-                <li>仅授予 WordPress 应用密码必要的权限</li>
-                <li>执行批量操作前先备份 WordPress</li>
-            </ul>
+            <h3>5. 视觉调研与风格确认</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        查找符合我们网站的配色和字体，给我们例子，我们必须要“大牌”或者“大厂”风格。
+                    </div>
+                </div>
+            </div>
 
-            <h3>质量控制</h3>
-            <ul class="checklist">
-                <li>检查生成的图片是否符合 B2B 风格</li>
-                <li>确保没有文字、水印</li>
-                <li>验证产品细节清晰</li>
-                <li>Alt 文本不超过 125 字符</li>
-                <li>Title 包含关键词</li>
-            </ul>
+            <h3>6. 更新项目全局规则</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        把确定的配色和字体更新到规则去，但保持移动端的间距和按钮规则不要改变。
+                    </div>
+                </div>
+            </div>
 
-            <div class="progress-wrapper">
-                <div class="progress-label">学习进度：100% 准备就绪</div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
-                <p>你已经掌握了所有核心概念，现在开始你的自动化之旅吧！</p>
+            <h3>7. 全站内容生成与优化</h3>
+            <div class="ai-chat-box">
+                <div class="chat-message user">
+                    <div class="avatar user">You</div>
+                    <div class="message-content">
+                        <span class="prompt-label">Prompt</span>
+                        <span class="copy-prompt">复制代码</span>
+                        帮我生成全部页面的 AIDA 框架和内容。再次调用 SEO/GEO 工具深入研究，确保每个 Section 都有且只有一个引导询盘的按钮。
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -720,85 +1231,123 @@ npx tsx scripts/cli.ts workflow:full 123 --site mysite.com</code></pre>
                 常见问题
             </h2>
 
-            <h4>Q1: 为什么需要同时安装 Node.js 和 Python？</h4>
-            <p>A: Node.js 用于处理并发高的 CLI 任务和网络请求（如 WordPress API），而 Python 用于处理复杂的 AI 任务和图像运算（如 OpenCV, Pillow），两者结合效率最高。</p>
+            <h4>Q1: SKILL 和规则有什么区别？</h4>
+            <p>A: SKILL 定义 AI 的专业能力和工作流程，而规则定义项目的编码标准和设计规范。SKILL 是"怎么做"，规则是"做什么"。</p>
 
-            <h4>Q2: 安装依赖时报错怎么办？</h4>
-            <p>A: 清除缓存重试：</p>
-            <div class="code-window">
-                <div class="code-header"><div class="window-controls"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div></div>
-                <pre><code>npm cache clean --force
-npm install</code></pre>
-            </div>
+            <h4>Q2: 如何调试 SKILL 不生效的问题？</h4>
+            <p>A: 检查以下几点：1. SKILL 文件是否在 .trae/skills/ 目录下 2. 文件名是否正确（SKILL.md） 3. YAML frontmatter 是否完整 4. 重新加载 Trae IDE。</p>
+
+            <h4>Q3: 可以同时使用多个 SKILL 吗？</h4>
+            <p>A: 可以。Trae 会根据任务类型自动选择合适的 SKILL。你也可以在对话中明确指定使用哪个 SKILL。</p>
+
+            <h4>Q4: 如何确保 AI 生成的代码符合我的设计规范？</h4>
+            <p>A: 创建详细的规则文件，包括颜色、字体、间距、组件规范等。AI 会自动读取这些规则并应用。</p>
+
+            <h4>Q5: WordPress 连接失败怎么办？</h4>
+            <p>A: 检查：1. .env 文件是否正确配置 2. 应用密码是否有效 3. WordPress REST API 是否启用 4. 网络连接是否正常。</p>
+
+            <h4>Q6: 如何备份我的 SKILL 和规则？</h4>
+            <p>A: 将 .trae/ 目录添加到 Git 仓库，定期提交。建议使用版本控制管理所有配置文件。</p>
+
+            <h4>Q7: 可以分享 SKILL 给团队成员吗？</h4>
+            <p>A: 可以。将 SKILL 文件夹复制到团队成员的 .trae/skills/ 目录即可。也可以通过 Git 共享。</p>
+
+            <h4>Q8: 如何更新 SKILL？</h4>
+            <p>A: 直接编辑 SKILL.md 文件，保存后 Trae 会自动重新加载。建议在更新前备份原文件。</p>
+
+            <h4>Q9: 支持哪些编程语言？</h4>
+            <p>A: Trae 支持所有主流编程语言，包括 HTML、CSS、JavaScript、Python、PHP、React、Vue 等。</p>
+
+            <h4>Q10: 如何获取更多帮助？</h4>
+            <p>A: 查看 Trae 官方文档、社区论坛，或联系技术支持团队。</p>
         </section>
 
         <footer>
-            <p>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
-                    <path d="M2 17L12 22L22 17"/>
-                    <path d="M2 7L2 17"/>
-                    <path d="M22 7L22 17"/>
-                    <path d="M12 12L12 22"/>
-                </svg>
-                文章生图自动化项目 - 学员版 (v2.2 AI-Native Edition)
-            </p>
-            <p>如有问题，请联系导师获取帮助</p>
-            <p>祝学习愉快！</p>
+            <div class="progress-wrapper">
+                <div class="progress-label">教程完成度</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+            </div>
+            <p>恭喜你完成了网站架构设计完整教程！现在你已经掌握了使用 Trae 创建自定义 SKILL、配置规则、绑定 WordPress、建立设计系统的全部技能。</p>
+            <p style="margin-top: 20px; opacity: 0.6;">© 2026 Website Architect Tutorial. Built with Trae AI.</p>
         </footer>
     </main>
 </div>
 
 <script>
-    // 复制代码功能
-    document.querySelectorAll('.copy-prompt').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const text = this.parentElement.innerText.replace('Prompt\n复制代码\n', '');
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = this.innerText;
-                this.innerText = '已复制!';
-                setTimeout(() => this.innerText = originalText, 2000);
-            });
-        });
-    });
-
-    // 平滑滚动与高亮当前导航逻辑
-    document.querySelectorAll('.sidebar a[href^="#"]').forEach(anchor => {
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const target = document.querySelector(targetId);
+            const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                history.pushState(null, null, targetId);
-                updateActiveLink(targetId);
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         });
     });
 
+    // Active link highlighting
     const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.sidebar .nav-item');
+    const navItems = document.querySelectorAll('.nav-item');
 
-    function updateActiveLink(id) {
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === id) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    // 滚动监听
     window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            if (scrollY >= sectionTop - 150) {
-                current = '#' + section.getAttribute('id');
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= sectionTop - 200) {
+                current = section.getAttribute('id');
             }
         });
-        if(current) updateActiveLink(current);
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
     });
+
+    // Copy prompt functionality
+    document.querySelectorAll('.copy-prompt').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const messageContent = this.parentElement;
+            const text = messageContent.innerText.replace('Prompt\n复制代码\n', '').trim();
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = this.innerText;
+                this.innerText = '已复制!';
+                this.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    this.innerText = originalText;
+                    this.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                this.innerText = '复制失败';
+            });
+        });
+    });
+
+    // Animate progress bar on scroll
+    const progressBar = document.querySelector('.progress-fill');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                progressBar.style.transition = 'width 1s ease-out';
+                progressBar.style.width = '100%';
+            }
+        });
+    }, { threshold: 0.5 });
+
+    if (progressBar) {
+        observer.observe(progressBar);
+    }
 </script>
 
 </body>
